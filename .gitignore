@@ -1,0 +1,8 @@
+/debug/
+/out/
+*.out
+*.o
+*.so
+*.ell
+*.coredump
+core.*
