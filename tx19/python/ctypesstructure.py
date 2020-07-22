@@ -31,7 +31,7 @@ print((c.b1,c.b2,"///",c.__sizeof__(),ctypes.sizeof(c), '//', c.b1,c.b2))
 #mycc._fields_[i], mycc.c1, '///', 'mycc'+'.'+mycc._fields_[i][0], eval('mycc'+'.'+mycc._fields_[i][0])
 getattr(c,'b1')
 [(e[0],e[1], getattr(c,e[0]),getattr(c.__class__,e[0])) for e in c._fields_]  ##tostring(name,value) #bitfield in ctypes @Python-cytes-str-#getattr#### https://zhuanlan.zhihu.com/p/20182674 
-isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData)  ##with getattr() to wrapper__str__
+isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData)  ##with getattr() to @wrapper__str__
 #c.b2=7;
 from ctypes import *; print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] ) ##bytes.hex()
 c.b2=7;               print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] )
