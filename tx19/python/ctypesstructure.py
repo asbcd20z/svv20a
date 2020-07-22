@@ -29,11 +29,11 @@ ctypes.sizeof(mycc), ctypes.sizeof(myee)
 c=mycc(0x42,3); c,c.__class__,'///',c._fields_[1],'///', c.b2,c.__class__.b2
 print((c.b1,c.b2,"///",c.__sizeof__(),ctypes.sizeof(c), '//', c.b1,c.b2))
 #mycc._fields_[i], mycc.c1, '///', 'mycc'+'.'+mycc._fields_[i][0], eval('mycc'+'.'+mycc._fields_[i][0])
-getattr(c,'c1')
+getattr(c,'b1')
 [(e[0],e[1], getattr(c,e[0]),getattr(c.__class__,e[0])) for e in c._fields_]  ##tostring(name,value) #bitfield in ctypes @Python-cytes-str-#getattr#### https://zhuanlan.zhihu.com/p/20182674 
-isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array)
+isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData)
 #c.b2=7;
-from ctypes import *; print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] )
+from ctypes import *; print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] ) ##bytes.hex()
 c.b2=7;               print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] )
 c2=mycc.from_buffer_copy(string_at(addressof(c), sizeof(c))); print('==', c2, c2.b2)
 #c_long.from_buffer_copy((string_at(addressof(c), sizeof(c))), mycc.b2.ofs) #??
