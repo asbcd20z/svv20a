@@ -33,6 +33,10 @@ getattr(c,'b1')
 [(e[0],e[1], getattr(c,e[0]),getattr(c.__class__,e[0])) for e in c._fields_]  ##tostring(name,value) #bitfield in ctypes @Python-cytes-str-#getattr#### https://zhuanlan.zhihu.com/p/20182674 
 isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData)  ##with getattr() to @wrapper__str__
 #c.b2=7;
+#
+import binascii; [hex(e) for e in binascii.b2a_hex(bytes(c))];  binascii.b2a_hex(bytes(c)); str( binascii.b2a_hex(bytes(c)),'utf-8' ) ##bytes.hex()
+bytes(c)          #??same to ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))
+['{:02x}'.format(e) for e in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] ##bytes.hex()
 from ctypes import *; print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] ) ##bytes.hex()
 c.b2=7;               print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] )
 c2=mycc.from_buffer_copy(string_at(addressof(c), sizeof(c))); print('==', c2, c2.b2)
