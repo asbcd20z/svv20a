@@ -26,7 +26,7 @@ class mycc(ctypes.Structure):_fields_=[("b1",ctypes.c_char),("b2",ctypes.c_long)
 class myee(ctypes.Structure):_fields_=[("b1",ctypes.c_char),("cc2",mycc)];pass
 ctypes.sizeof(mycc), ctypes.sizeof(myee)
 
-c=mycc(0x42,3); c,c.__class__,'///',c._fields_[1],'///', c.b2,c.__class__.b2
+c=mycc(0x4b,3); c,c.__class__,'///',c._fields_[1],'///', c.b2,c.__class__.b2
 print((c.b1,c.b2,"///",c.__sizeof__(),ctypes.sizeof(c), '//', c.b1,c.b2))
 #mycc._fields_[i], mycc.c1, '///', 'mycc'+'.'+mycc._fields_[i][0], eval('mycc'+'.'+mycc._fields_[i][0])
 getattr(c,'b1')
@@ -34,7 +34,8 @@ getattr(c,'b1')
 isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData)  ##with getattr() to @wrapper__str__
 #c.b2=7;
 #
-import binascii; [hex(e) for e in binascii.b2a_hex(bytes(c))];  binascii.b2a_hex(bytes(c)); str( binascii.b2a_hex(bytes(c)),'utf-8' ) ##bytes.hex()
+c.__reduce__()[1][1][1]  #_unpickle
+import binascii; [hex(e) for e in binascii.b2a_hex(bytes(c))];  binascii.b2a_hex(bytes(c)); str( binascii.b2a_hex(bytes(c)),'utf-8' ) ##bytes.hex(), hex_codec
 bytes(c)          #??same to ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))
 ['{:02x}'.format(e) for e in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] ##bytes.hex()
 from ctypes import *; print("===buf:", [i for i in ctypes.string_at(ctypes.addressof(c), ctypes.sizeof(c))] ) ##bytes.hex()
