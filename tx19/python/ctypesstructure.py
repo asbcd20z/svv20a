@@ -8,6 +8,22 @@ import sys; sys.path ;print(sys.path)
 import pdb
 import ctypes
 import ctypes as tt ## Structure Union Array
+
+import sys;
+#logging-and-file-line-function
+print("here is :",__file__,str(sys._getframe().f_lineno)) #https://www.cnblogs.com/ld1226/p/5639976.html
+def get_cur_info():import sys; print('log:', sys._getframe().f_code.co_filename,sys._getframe().f_code.co_name,sys._getframe().f_lineno)
+get_cur_info();
+#sys._current_frames(), sys._getframe(), traceback.print_stack(), inspect.currentframe()
+#traceback.extract_stack(limit=2)[0] #python获取当前行号,函数名称,文件名https://blog.csdn.net/iteye_11349/article/details/82679062
+import logging #python日志打印模块,输出时间/文件名/行号信息等https://blog.csdn.net/ternence_hsu/article/details/104572415/
+#logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s', datefmt='%d-%m-%Y:%H:%M:%S')
+#logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d:%(funcName)s] %(message)s', datefmt='%x-%T%z', level=logging.INFO)
+#logging.getLogger().setLevel(logging.DEBUG); logger = logging.getLogger(); logger.debug("This is a debug log")
+#printf=logging.warn
+##
+
+
 #Python 在 ctypes 中为我们提供了类似C语言的数据类型# https://www.cnblogs.com/adylee/p/10299157.html  https://www.cnblogs.com/rainduck/archive/2011/09/02/2163230.html
 #from ctypes import *;
 class beer_recipe(ctypes.Structure):_fields_ = [("amt_barley", ctypes.c_int),("amt_water", ctypes.c_char),]
@@ -24,7 +40,7 @@ print("hi..")
 class mycc(ctypes.Structure):_fields_=[("b1",ctypes.c_char),("b2",ctypes.c_long)];pass
 #class mycc(ctypes.BigEndianStructure):_fields_=[("b1",ctypes.c_char),("b2",ctypes.c_long)];pass
 class myee(ctypes.Structure):_fields_=[("b1",ctypes.c_char),("cc2",mycc)];pass
-ctypes.sizeof(mycc), ctypes.sizeof(myee)
+ctypes.sizeof(mycc), ctypes.sizeof(myee), sys.getsizeof(mycc())#?
 
 c=mycc(0x4b,3); c,c.__class__,'///',c._fields_[1],'///', c.b2,c.__class__.b2
 print((c.b1,c.b2,"///",c.__sizeof__(),ctypes.sizeof(c), '//', c.b1,c.b2))
