@@ -88,8 +88,9 @@ class AutoPrintable:
     def __stringify(self, strfunc):
         sig= inspect.signature(self.__init__)
         values= []
-        #print(sig, sig.parameters) #==
+        print('--', sig, sig.parameters) #==
         for attr in sig.parameters:
+            print('--',attr)
             value= getattr(self, attr)
             values.append(strfunc(value))
 
@@ -105,5 +106,8 @@ class MyClass(AutoPrintable):
 print( str(MyClass('foo', 'bar')) ) # output: MyClass(foo, bar)
 print( repr(MyClass('foo', 'bar')) ) # output: MyClass('foo', 'bar')
 
-
-
+##
+x=MyClass('foo', 'bar')
+sig=inspect.signature(x.__init__)
+sig, sig.parameters,  '///', str(sig), [e for e in sig.parameters]
+str(sig), str(sig.parameters),         [e for e in sig.parameters]
