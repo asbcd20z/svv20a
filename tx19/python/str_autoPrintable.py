@@ -72,6 +72,7 @@ class MyClass(Printable):
     def __init__(self, a):
         self.a = a
 
+print(MyClass('aaa')) #==
 
 
 ##===4
