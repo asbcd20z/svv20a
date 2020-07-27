@@ -21,7 +21,7 @@ import logging #python日志打印模块,输出时间/文件名/行号信息等h
 #logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d:%(funcName)s] %(message)s', datefmt='%x-%T%z', level=logging.INFO)
 #logging.getLogger().setLevel(logging.DEBUG); logger = logging.getLogger(); logger.debug("This is a debug log")
 #printf=logging.warn
-str(datetime.datetime.now())
+import datetime; str(datetime.datetime.now())
 ##
 
 
@@ -48,8 +48,9 @@ print((c.b1,c.b2,"///",c.__sizeof__(),ctypes.sizeof(c), '//', c.b1,c.b2))
 #mycc._fields_[i], mycc.c1, '///', 'mycc'+'.'+mycc._fields_[i][0], eval('mycc'+'.'+mycc._fields_[i][0])
 getattr(c,'b1')
 [(e[0],e[1], getattr(c,e[0]),getattr(c.__class__,e[0])) for e in c._fields_]  ##tostring(name,value) #bitfield in ctypes @Python-cytes-str-#getattr#### https://zhuanlan.zhihu.com/p/20182674 
-isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData)  ##with getattr() to @wrapper__str__
-#__str__, __repr__, eval()  #__str__和__repr__的异同https://segmentfault.com/a/1190000022266368
+isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData), #isinstance(c, ctypes._CData)  ##with getattr() to @wrapper__str__
+#import inspect; inspect.getmembers(c), inspect.isbuiltin(c)
+#__str__, __repr__, eval(),exec()   #__str__和__repr__的异同https://segmentfault.com/a/1190000022266368
 #c.b2=7;
 #
 c.__reduce__()[1][1][1]  #_unpickle
