@@ -1,5 +1,5 @@
 #if 0
-#g++ -Wall -Werror  -g -std=c++11 $0 -o $0.ell ||exit -1;
+#g++ -fno-elide-constructors -Werror -Wall  -g -std=c++11 $0 -o $0.ell ||exit -1;
 g++ -Wall  -g -std=c++11 $0 -o $0.ell ||exit -1;
 ls -l $0*
 ./$0.ell
