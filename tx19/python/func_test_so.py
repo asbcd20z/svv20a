@@ -21,7 +21,12 @@ print f.fcc(c)
 print [ hex(ord(i)) for i in string_at(addressof(c), sizeof(c))]
 print [(hex(ord(i)),ord(i)) for i in string_at(addressof(c), sizeof(c))]
 
+##
 c2=mycc.from_buffer_copy(string_at(addressof(c), sizeof(c))); print '==',c2,c2.i2
+c3=mycc.from_address(addressof(c)); print '==',c3,c3.i2
+c.i2=33; print '==',c,c.i2
+pass;    print '==',c3,c3.i2
+
 
 ##
 #import pdb;pdb.set_trace()
