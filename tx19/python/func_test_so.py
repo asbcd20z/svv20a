@@ -26,6 +26,11 @@ c2=mycc.from_buffer_copy(string_at(addressof(c), sizeof(c))); print '==',c2,c2.i
 c3=mycc.from_address(addressof(c)); print '==',c3,c3.i2
 c.i2=33; print '==',c,c.i2
 pass;    print '==',c3,c3.i2
+#
+cbuf=ctypes.create_string_buffer(string_at(addressof(c), sizeof(c)))
+str(list(cbuf)); cbuf[4]='A'; cbuf[4]
+c4=mycc.from_buffer(cbuf); print '==',c4,c4.i2
+import binascii; binascii.b2a_hex(c),binascii.b2a_hex(cbuf)
 
 
 ##
