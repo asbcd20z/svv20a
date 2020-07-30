@@ -4,7 +4,7 @@
 struct mycc{
 char c1;
 int i2;
-short s3[20];
+short s3[20];//20,22
 int i4;
 };
 int fcc(struct mycc c)
@@ -18,3 +18,12 @@ int func(int a)
         return a*a;
 }
 
+
+//==how to return struct for ctypes in python?
+struct mycc func2(int a)
+{
+	struct mycc c={};
+	c.i2=a+1;
+	c.i4=a;
+	return c;
+}

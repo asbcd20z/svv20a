@@ -8,12 +8,12 @@ p = os.getcwd() + '/libfunc.so'
 f = cdll.LoadLibrary(p)
 print p,':', f.func(99)
 
-##
+##==write-to-buffer-and-call-as-parameter
 import ctypes
 from ctypes import *
 class mycc(Structure):pass
 #mycc._pack_ =4;
-mycc._fields_=[('c1',c_char),('i2',c_int),('s3',c_short*22),('i4',c_int)]  ##('s3',c_short*20)
+mycc._fields_=[('c1',c_char),('i2',c_int),('s3',c_short*22),('i4',c_int)]  ##('s3',c_short*20),but 22 for error test
 c=mycc('B',3, i4=0x12345678);c.s3[21]=0xabcd
 print 'sizeof:',sizeof(mycc),sizeof(c)
 print f.fcc(c)
@@ -21,7 +21,7 @@ print f.fcc(c)
 print [ hex(ord(i)) for i in string_at(addressof(c), sizeof(c))]
 print [(hex(ord(i)),ord(i)) for i in string_at(addressof(c), sizeof(c))]
 
-##
+##==read-from-buffer
 c2=mycc.from_buffer_copy(string_at(addressof(c), sizeof(c))); print '==',c2,c2.i2
 c3=mycc.from_address(addressof(c)); print '==',c3,c3.i2
 c.i2=33; print '==',c,c.i2
@@ -32,6 +32,10 @@ str(list(cbuf)); cbuf[4]='A'; cbuf[4]
 c4=mycc.from_buffer(cbuf); print '==',c4,c4.i2
 #import binascii; binascii.b2a_hex(c); binascii.b2a_hex(cbuf)  #Aborted (core dumped) to stackdump when finished, why?
 
+
+##==return-struct-from-call
+f.func2.restype=mycc  #ps, will aborted with this
+rtc=f.func2(77); print rtc, rtc.i2, string_at(addressof(rtc), sizeof(rtc)), [ord(e) for e in string_at(addressof(rtc), sizeof(rtc))]
 
 ##
 #import pdb;pdb.set_trace()
