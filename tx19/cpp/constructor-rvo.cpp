@@ -18,6 +18,7 @@ https://blog.csdn.net/guangcheng0312q/article/details/103740410/  //现代C++之
 https://blog.csdn.net/choumin/article/details/106986913 // 如f()的优化时,对象的创建的地址在f()外,优化s掉了return的对象. 即,Return-Value-Optimization能把对象直接构造到调用者的栈上
 https://www.runoob.com/w3cnote/cpp-constructor-method-of-the-parent-class.html //在 C++ 中子类继承和调用父类的构造函数方法
 https://www.cnblogs.com/huhuuu/p/3460406.html //继承中赋值函数的注意点 Base::operator =(other);
+eg,C++中的对象初始化 https://www.cnblogs.com/arxive/p/8418187.html
 //-malign-double
 #endif
 
@@ -50,6 +51,9 @@ int main0()
 func(string("hello world"));
 return 0;
 }
+//==
+void main0a(){A a=string("to-construct");} //2 const[1.temp(string(...)),2.a(temp)].but will be optimizated as main0b() below
+void main0b(){A a{string("to-construct")};}
 
 //===
 A f()
@@ -59,8 +63,8 @@ return A();
 int main1(void)  
 {
 A o = f();
-//A o2("ha");
-//o2=o;
+//A o2("ha"); o2=f();
+///o2=o;
 return 0;
 }
 
@@ -78,6 +82,10 @@ return 0;
 
 int main()
 {
+	main0a();
+	cout<<"---\n";
+	main0b();
+	cout<<"---\n";
 	main0();
 	cout<<"------\n";
 	main1();
