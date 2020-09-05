@@ -21,20 +21,39 @@ strings(字符串)详解(一) https://blog.csdn.net/axe8/article/details/50363
 
 #include <iostream>
 #include <string>
+#include <stdio.h>
 using namespace std;
 
 void foodef(int x=0){cout<<"define-with-def:"<<x<<endl;}
 
+//static char emptyStr[]; //static char emptyStr[];  ///error: storage size of 'emptyStr' isn't known
 struct Xstring
 {
+static const int id=22;
+static const int idx; //static const int Xstring::idx=22; //error: 'static' may not be used when defining (as opposed to declaring) a static data member [-fpermissive]
+int id2=22;
+ const int id3=22;
+//static  int id4=22; //error: ISO C++ forbids in-class initialization of non-const static member 'Xstring::id4'
+
 //Xstring(){}
 Xstring(const char* s=NULL){}
 Xstring(const Xstring& rts_){}
 Xstring& operator=(const Xstring& rts_){return(*this);}
 char* _str=nullptr;
+//
+friend ostream& operator<<(ostream& os, Xstring x){os<<x._str; return os;}
 };
 
 //ostream& operator<<(ostream& os, char* p_){if(!p_){os<<"NUL";}else{os<<p_;} return os;} //error recursion if not NULL
+
+
+struct CInit
+{
+CInit():x{2}{}  //it's higher than inline-initializer(x=1)
+int x=1;
+friend ostream& operator<<(ostream& os, const CInit ob){return os<<ob.x<<std::endl;}
+};
+
 
 int main()
 {
@@ -46,6 +65,9 @@ int main()
 	//cout<<Xstring()._str<<endl;
 	//const char* q="hello"; //cout <<q<<endl;
 	cout<<(int*)0<<string("tt")<<"end.\n";
+	string t;
+printf("=%p\n", t.c_str());
+CInit i; cout<<i;
 	return 0;
 }
 
