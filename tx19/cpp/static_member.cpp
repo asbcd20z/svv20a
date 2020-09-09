@@ -30,6 +30,7 @@ public:
 //protected:
 static void foo1(){cout<<"B.foo1"<<endl;}
 static void foo2(){cout<<"B.foo2"<<endl;}
+static void  foo(){foo1();} // call B::foo1(), even by D::foo()
 };
 
 class D: public B
@@ -52,6 +53,7 @@ D::foo1();
 cout<<__LINE__<<"class-sub:"<<endl;
 B::foo2();
 D::foo2();
-
+cout<<__LINE__<<"foo-foo1"<<endl;
+D::foo();
 return 0;
 }
