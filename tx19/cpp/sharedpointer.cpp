@@ -35,7 +35,7 @@ po.reset();
 return 0;
 }
 
-void del(B* b) {cout<<__LINE__<<": del-" <<b <<endl;} //shared_ptr<B> po(b, del);
+void del(B* b) {cout<<__LINE__<<": del-" <<b <<endl;/*del b;*/} //shared_ptr<B> po(b, del);
 
 int main1()
 {
