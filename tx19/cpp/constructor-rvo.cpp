@@ -82,6 +82,9 @@ return 0;
 
 int main()
 {
+	int x=0x1234567890;
+	int y1=0x12345678; int y2=0x10; int y=y1*y2;
+	cout<<x<<","<<y<<endl;
 	main0a();
 	cout<<"---\n";
 	main0b();
