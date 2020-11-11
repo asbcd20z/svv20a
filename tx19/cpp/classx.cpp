@@ -55,6 +55,20 @@ friend ostream& operator<<(ostream& os, const CInit ob){return os<<ob.x<<std::en
 };
 
 
+struct B{
+int mb;
+void f1(){}
+virtual void vf1(){}
+virtual void vf2(){}
+};
+struct D1: public B{
+int md;
+void f2(){}
+virtual void vf2(){}
+virtual void vf3(){}
+};
+
+
 int main()
 {
 	void foodef(int x=999);
@@ -68,6 +82,8 @@ int main()
 	string t;
 printf("=%p\n", t.c_str());
 CInit i; cout<<i;
+B b;
+D1 d;
 	return 0;
 }
 
