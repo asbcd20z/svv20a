@@ -1,7 +1,7 @@
 #if 0
 #g++ -fno-elide-constructors -g -c $0 ||exit -1
-g++ -g -c $0 ||exit -1
-g++ -S $0 ||exit -1
+g++  -std=c++1y -g -c $0 ||exit -1
+#g++ -S $0 ||exit -1
 ls -l  ${0%.cpp}*
 #ls -l $0* ${0%.c}*
 #cat ${0%.c}.s
@@ -94,3 +94,16 @@ Data d={};
 d=foo_data(8,9);  ///参数隐含的为: (&ret-tmp_Data, 8, 9)
 }
 
+
+//rval
+void rval()
+{
+int x=7;
+int* px=&x;
+int& rx=x;
+rx=6;
+//
+int&& rval=8; ///value 8 is stored-hide in frame-stack, then rval point to it
+rval=9;
+return;
+}
