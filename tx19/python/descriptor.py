@@ -26,10 +26,10 @@ class Foo():
 	def foo2(self):print ('call foo2');
 f=Foo()
 
-class mydesc():
-	def __get__():pass
-	def __set__():pass
-	def __delete__():pass
+class Mydesc():
+	def __get__(self,owner,ocls):print('geta')
+	def __set__(self,owner,value):print('seta')
+	def __delete__(self,owner):print('dela')
 
 
 class G():
@@ -56,3 +56,14 @@ class D(B,B2):
 d=D()
 d.foo()
 '''
+
+
+class T():
+	x=1
+	def __init__(self):
+		self.y=2
+		self.z=3
+	def foo():pass
+	foo.fx=4
+t=T()
+T.__dict__, t.__dict__, t.foo.__dict__, T.foo.__dict__
