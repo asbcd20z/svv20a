@@ -47,7 +47,7 @@ for(int i=0; i<3; i++)
 }
 }
 #endif
-
+//int val(const int a_){return 0;} ///not ok,it's same to below
 int val(int a_) ///ret by 寄存器eax
 {
 	a_=8;
@@ -57,6 +57,7 @@ a_=8;
 return a_;
 }
 //引用作 arg或return 都是作为address
+const int& ref(const int& a_){return a_;} ///ok,is mangled diferrent to below
 int& ref(int& a_) ///引用传递的是address，类似指针。实参编译时隐式取自己的地址
 {
 	a_=8;
@@ -106,4 +107,34 @@ rx=6;
 int&& rval=8; ///value 8 is stored-hide in frame-stack, then rval point to it
 rval=9;
 return;
+}
+
+//about argument by value, reference, right-reference
+void foo1(int a_)
+{
+int x=9;
+x=a_;
+}
+void foo1_ref(const int& a_) ///__Z8foo1_refRKi， 可可用于const,或left/right
+{
+int x=0;
+x=a_;
+}
+void foo1_ref( int& a_) ///__Z8foo1_refRi， only for left
+{
+int x=0;
+x=a_;
+}
+void foo1_ref( int&& a_) ///__Z8foo1_refOi, only for right/const-temp
+{
+int x=0;
+x=a_;
+}
+void call_foo1()
+{
+//foo1(1);
+foo1_ref(1);
+int x=8;
+foo1_ref(x);
+const int y=9; foo1_ref(y);
 }
