@@ -10,6 +10,8 @@ exit 0
 #gdb reference.o -q -ex 'disassemble/m main0' -ex q
 #endif
 
+#include <utility>
+
 int gx=1;
 int main0(int ac,char* av[])
 {
@@ -135,6 +137,8 @@ void call_foo1()
 //foo1(1);
 foo1_ref(1);
 int x=8;
+//int&&z=std::move(x);foo1_ref(z);
+foo1_ref(std::move(x));
 foo1_ref(x);
 const int y=9; foo1_ref(y);
 }
