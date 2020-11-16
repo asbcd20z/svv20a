@@ -50,7 +50,7 @@ for(int i=0; i<3; i++)
 }
 #endif
 //int val(const int a_){return 0;} ///not ok,it's same to below
-int val(int a_) ///ret by 寄存器eax
+int val(/*const */ int a_) ///ret by 寄存器eax
 {
 	a_=8;
 int x=7;
@@ -112,7 +112,7 @@ return;
 }
 
 //about argument by value, reference, right-reference
-void foo1(int a_)
+void foo1(/*const */ int a_) ///__Z4foo1i
 {
 int x=9;
 x=a_;
