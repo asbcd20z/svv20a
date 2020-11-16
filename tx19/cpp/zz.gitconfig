@@ -1,0 +1,66 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+#	name = 
+#	email = 
+#
+#
+	name=z
+	email=z
+[alias]
+	#@time20200624
+	#git clean -f
+	#git reset    <cid> <file> ---only update INDEX
+	#git checkout <cid> <file> ---both update INDEX and workspace,or only update workspace from INDEX if without cid
+	#git br -vv
+	#git show-branch
+	#git show -name-only [cid] my-path   ## see changes log
+	#git log -S -L --grep=  #search
+	#git blame my-rev~  myfile  -L99,+9  ## blame-history
+	tt3=log --oneline -3
+	configge=config --global -e
+	co = checkout
+	ci = commit
+	cia= commit --amend
+	df = diff --name-only
+	#git add -N aa.txt ; git rm --cached aa.txt ##new-file-for-diff, untracked--notStaged-staged4tobeCommit
+	#git add -A
+	br = branch
+	#br -r -a
+	puv= push origin HEAD:refs/for/master
+	#puv19a=push origin HEAD:refs/for/rel/5G19A
+	#
+	logfuller=log -1 --format=fuller
+	##
+	#show -q -s --name-only --name-status --source/default  [cid1 cid2...]  ##
+	#log     --name-only
+	logme=log --author='liwen.a'
+	log1p=log -1 -p #--name-only ##=show
+	log1f=log -1 --name-only
+	showf=show   --name-status   ##with cid-list
+	lol= log -9 --pretty='%h %cI%d %s  .%an'
+	loo= log -8 --pretty=oneline
+	lo = log -9 --oneline #--all --graph #--decorate
+	loag=lo --all --graph #--decorate
+	#lot=lo --pretty=format:"%h [%cI %cn] %s %d" -9
+	lot =lo --pretty=format:'%h %cI %d %s  .%an'  #--decorate
+	lotag=lot --all --graph #--decorate' 
+	##log bra1..bra2 == log ^br1 br2  #gitrevisions  # branch-base-point
+	##log --left-right --boundary --reverse bra1...bra2
+	#show
+	#reflog
+	st = status
+	hh = help
+
+[xcolor]
+	status=auto
+[xhttp]
+	#http_proxy=http://10.158.100.8:8080//sct
+#        proxy = 135.245.48.34:8000
+#	proxy = 135.251.33.16:8080 #15
+#       proxy = 10.167.32.133:8080
+#       proxy = 127.0.0.1:1087
+[xuser]
+        name=jqasbcd20z
+        email=jqasbcd20z@q.com
+
