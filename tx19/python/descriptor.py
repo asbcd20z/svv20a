@@ -3,6 +3,7 @@
 
 #Python » 3.5.2 Documentation » The Python Language Reference » 
 #3. Data model/3.3.2. Customizing attribute access
+# __getattr__() ..., __getattribute__()
 #python描述符理解 www.cnblogs.com/wancy86/p/descriptor.html
 #python核心编程v2-13.16.3  特殊方法__getattribute__()
 #
@@ -67,3 +68,4 @@ class T():
 	foo.fx=4
 t=T()
 T.__dict__, t.__dict__, t.foo.__dict__, T.foo.__dict__
+
