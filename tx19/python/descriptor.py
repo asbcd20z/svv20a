@@ -30,7 +30,11 @@
 #python关于描述符__set__ ,__get__ , __delete__  https://blog.csdn.net/Mr_Slower/article/details/83590823
 #Python语言学习讲解十六：python之描述符__set__和__get__ 等解释  https://blog.csdn.net/Windgs_YF/article/details/53409482
 #
+##
 #深入理解python super     https://coordinate.blog.csdn.net/article/details/79531891
+#Python学习资料  Super https://www.cnblogs.com/macula7/archive/2009/08/17/1960737.html
+#简介Python之super的用法及原理 https://blog.csdn.net/nirendao/article/details/48863215
+#[Things to Know About Python Super] by Michele Simionato  https://www.artima.com/weblogs/viewpost.jsp?thread=236275
 #
 
 import sys
