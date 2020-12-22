@@ -32,6 +32,7 @@
 #
 ##
 #深入理解python super     https://coordinate.blog.csdn.net/article/details/79531891
+#baidu,Guido van Rossum super()
 #Python学习资料  Super https://www.cnblogs.com/macula7/archive/2009/08/17/1960737.html
 #简介Python之super的用法及原理 https://blog.csdn.net/nirendao/article/details/48863215
 #[Things to Know About Python Super] by Michele Simionato  https://www.artima.com/weblogs/viewpost.jsp?thread=236275
