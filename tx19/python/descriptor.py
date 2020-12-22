@@ -34,8 +34,16 @@
 #深入理解python super     https://coordinate.blog.csdn.net/article/details/79531891
 #baidu,Guido van Rossum super()
 #Python学习资料  Super https://www.cnblogs.com/macula7/archive/2009/08/17/1960737.html
+# Unifying types and classes in Python 2.2  https://www.python.org/download/releases/2.2.3/descrintro/
 #简介Python之super的用法及原理 https://blog.csdn.net/nirendao/article/details/48863215
+##
 #[Things to Know About Python Super] by Michele Simionato  https://www.artima.com/weblogs/viewpost.jsp?thread=236275
+#http://users.rcn.com/python/download/Descriptor.htm , baidu:python/download/Descriptor.htm
+#Descriptor HowTo Guide  --by:Raymond Hettinger
+#https://docs.python.org/2/howto/descriptor.html
+#https://docs.python.org/3/howto/descriptor.html
+#Python » 3.5.2 Documentation » Python HOWTOs » Descriptor HowTo Guide
+#Descriptor 指南 (中文版#)  https://blog.csdn.net/largetalk/article/details/8267319
 #
 
 import sys
