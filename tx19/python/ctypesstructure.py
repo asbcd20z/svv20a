@@ -20,7 +20,7 @@ import sys;
 print("here is :",__file__,str(sys._getframe().f_lineno)) #https://www.cnblogs.com/ld1226/p/5639976.html
 def get_cur_info():import sys; print('log:', sys._getframe().f_code.co_filename,sys._getframe().f_code.co_name,sys._getframe().f_lineno)
 get_cur_info();
-#sys._current_frames(), sys._getframe(), traceback.print_stack(), inspect.currentframe()
+#sys._current_frames(), sys._getframe(), traceback.print_stack(), inspect.currentframe(),  inspect.stack()[0][1], inspect.trace(), inspect.getframeinfo()
 #traceback.extract_stack(limit=2)[0] #python获取当前行号,函数名称,文件名https://blog.csdn.net/iteye_11349/article/details/82679062
 import logging #python日志打印模块,输出时间/文件名/行号信息等https://blog.csdn.net/ternence_hsu/article/details/104572415/
 #logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s', datefmt='%d-%m-%Y:%H:%M:%S')
