@@ -42,6 +42,7 @@
 #Descriptor HowTo Guide  --by:Raymond Hettinger
 #https://docs.python.org/2/howto/descriptor.html
 #https://docs.python.org/3/howto/descriptor.html
+#https://docs.python.org/zh-cn/3.9/howto/descriptor.html
 #Python » 3.5.2 Documentation » Python HOWTOs » Descriptor HowTo Guide
 #Descriptor 指南 (中文版#)  https://blog.csdn.net/largetalk/article/details/8267319
 #描述器(descriptor)        https://blog.csdn.net/a1368783069/article/details/52268049
