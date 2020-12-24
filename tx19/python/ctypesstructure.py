@@ -9,6 +9,7 @@ import sys; sys.path ;print(sys.path)
 #import ctypesstructure as myt
 #pyy -ic'import ctypesstructure as myt'
 #pyy -i ctypesstructure.py
+#bytes.hex()
 
 import pdb
 import ctypes
@@ -54,6 +55,7 @@ print((c.b1,c.b2,"///",c.__sizeof__(),ctypes.sizeof(c), '//', c.b1,c.b2))
 getattr(c,'b1')
 [(e[0],e[1], getattr(c,e[0]),getattr(c.__class__,e[0])) for e in c._fields_]  ##tostring(name,value) #bitfield in ctypes @Python-cytes-str-#getattr#### https://zhuanlan.zhihu.com/p/20182674 
 isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData), #isinstance(c, ctypes._CData)  ##with getattr() to @wrapper__str__
+not isinstance(c, ctypes._SimpleCData), isinstance(c, ctypes._SimpleCData.__mro__[1]), #isinstance(c, ctypes._CData)
 #import inspect; inspect.getmembers(c), inspect.isbuiltin(c)
 #__str__, __repr__, eval(),exec()   #__str__和__repr__的异同https://segmentfault.com/a/1190000022266368
 #c.b2=7;
