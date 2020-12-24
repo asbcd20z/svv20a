@@ -111,3 +111,55 @@ class T():
 t=T()
 T.__dict__, t.__dict__, t.foo.__dict__, T.foo.__dict__
 
+
+
+
+##
+# 数据描述符
+class DataDes:
+    def __init__(self, default=0):
+        self._score = default
+
+    def __set__(self, instance, value):
+        print("访问数据描述符里的 __set__")
+        self._score = value
+
+    def __get__(self, instance, owner):
+        print("访问数据描述符里的 __get__")
+        return self._score
+
+# 非数据描述符
+class NoDataDes:
+    def __init__(self, default=0):
+        self._score = default
+
+    def __get__(self, instance, owner):
+        print("访问非数据描述符里的 __get__")
+        return self._score
+
+
+class Student:
+    math = DataDes(0)
+    chinese = NoDataDes(0)
+
+    def __init__(self, name, math, chinese):
+        self.name = name
+        print("init--1")
+        self.math = math
+        print("init--2")
+        self.chinese = chinese
+        
+    def __getattribute__(self, item):
+        print("调用 __getattribute__")
+        return super(Student, self).__getattribute__(item)
+     
+    def __repr__(self):
+        return "<Student: {}, math:{}, chinese: {},>".format(
+                self.name, self.math, self.chinese)
+
+
+
+s = Student('小明', 76,  68)
+s2= Student('小明', 76,  88)
+s,s2
+
