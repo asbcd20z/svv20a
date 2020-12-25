@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 ##-*- coding:utf-8 -*-
 
+#Python核心编程.(第二版)英文原版 - 道客巴巴(ch-13.16.4描述符) http://www.doc88.com/p-4867720132316.html
+#
 #Python » 3.5.2 Documentation » The Python Language Reference » 
 #3. Data model/3.3.2. Customizing attribute access
 # __getattr__() ..., __getattribute__()
