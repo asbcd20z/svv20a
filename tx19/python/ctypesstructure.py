@@ -4,6 +4,8 @@
 #python352.chm- 3.5.2 Documentation » The Python Standard Library » 16. Generic Operating System Services » 
 # 16.16. ctypes — A foreign function library for Python
 #ctypes --- Python 的外部函数库 # https://docs.python.org/zh-cn/3.7/library/ctypes.html
+# Q: how to enum?-instead by c_int? (from enum import Enum; can't be well with ctypes?)
+
 
 import sys; sys.path ;print(sys.path)
 #import ctypesstructure as myt
@@ -14,8 +16,11 @@ import sys; sys.path ;print(sys.path)
 import pdb
 import ctypes
 import ctypes as tt ## Structure Union Array
+import pprint as pp ## pprint.pprint
 
 import sys;
+sf=sys._getframe # sys._getframe().f_lineno, eval('sys._getframe().f_lineno')
+def flno():return eval('sys._getframe().f_code.co_filename')+str(eval('sys._getframe().f_lineno'))
 #logging-and-file-line-function
 print("here is :",__file__,str(sys._getframe().f_lineno)) #https://www.cnblogs.com/ld1226/p/5639976.html
 def get_cur_info():import sys; print('log:', sys._getframe().f_code.co_filename,sys._getframe().f_code.co_name,sys._getframe().f_lineno)
@@ -51,11 +56,12 @@ ctypes.sizeof(mycc), ctypes.sizeof(myee), sys.getsizeof(mycc())#?
 
 c=mycc(0x4b,3); c,c.__class__,'///',c._fields_[1],'///', c.b2,c.__class__.b2
 print((c.b1,c.b2,"///",c.__sizeof__(),ctypes.sizeof(c), '//', c.b1,c.b2))
+print(mycc,mycc.__name__, c.__class__, c.__class__.__name__)
 #mycc._fields_[i], mycc.c1, '///', 'mycc'+'.'+mycc._fields_[i][0], eval('mycc'+'.'+mycc._fields_[i][0])
 getattr(c,'b1')
 [(e[0],e[1], getattr(c,e[0]),getattr(c.__class__,e[0])) for e in c._fields_]  ##tostring(name,value) #bitfield in ctypes @Python-cytes-str-#getattr#### https://zhuanlan.zhihu.com/p/20182674 
 isinstance(c, ctypes.Structure), isinstance(c, ctypes.Union), isinstance(c, ctypes.Array), not isinstance(c, ctypes._SimpleCData), #isinstance(c, ctypes._CData)  ##with getattr() to @wrapper__str__
-not isinstance(c, ctypes._SimpleCData), isinstance(c, ctypes._SimpleCData.__mro__[1]), #isinstance(c, ctypes._CData)
+not isinstance(c, ctypes._SimpleCData), isinstance(c, ctypes._SimpleCData.__mro__[1]),  ctypes.c_int.__mro__[-2], #isinstance(c, ctypes._CData)
 #import inspect; inspect.getmembers(c), inspect.isbuiltin(c)
 #__str__, __repr__, eval(),exec()   #__str__和__repr__的异同https://segmentfault.com/a/1190000022266368
 #c.b2=7;
@@ -85,15 +91,19 @@ class mydata(ctypes.Structure):
                 ]
 
 x=mydata()
-x.__sizeof__()
+x.__sizeof__(), ctypes.sizeof(x)
 type(mydata)
 type(x)
 type(x.b1)
 #help(x)
 #help(x.b1)
+dir(mydata),vars(mydata),  dir(x),vars(x)
+print('==', repr(vars(mydata)), '\n',  mydata._fields_)
+print('===')
 #
-print((mydata.b1, mydata.b2, mydata.c3, mydata.l4,  mydata.kKB))  ###it shows byte-topology, different from instance
-x.b1, x.b2, x.c3, x.l4,  x.kKB
+print((mydata.b1, mydata.b2, mydata.c3, mydata.l4,  mydata.myc,  mydata.kKB))  ###it shows byte-topology, different from instance
+#print(mydata._fields_)
+x.b1, x.b2, x.c3, x.l4,  x.myc,  x.kKB
 #x.b1.value
 y=ctypes.c_int(88);y.value
 
@@ -103,6 +113,20 @@ for i in mydata._fields_: print(i)
 [i for i in x._fields_]
 [i[0] for i in x._fields_]
 #[x.__dict__[i[0]] for i in x._fields_]
+
+
+###
+#  class mycc(ctypes.Structure):_fields_=[("b1",ctypes.c_char),("b2",ctypes.c_long)];pass
+#class msgBase(ctyes.Structure): _fields_ = [("c1", ctypes.c_char), ("i2", ctypes.c_int), ("c3", ctypes,)]
+print('==',sys._getframe().f_lineno)
+msgBase=mycc
+class msgAA(msgBase): _fields_=[("_f3",ctypes.c_char)]
+class msgBB(msgBase): _fields_=[("_f4",ctypes.c_longlong)]
+ma=msgAA();
+mb=msgBB();
+ctypes.sizeof(ma),ctypes.sizeof(msgBB)
+print('==', msgBB._fields_, '\n', vars(msgBB))
+
 
 
 if 0:
