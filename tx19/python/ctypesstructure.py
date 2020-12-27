@@ -125,7 +125,7 @@ class msgBB(msgBase): _fields_=[("_f4",ctypes.c_longlong)]
 ma=msgAA();
 mb=msgBB();
 ctypes.sizeof(ma),ctypes.sizeof(msgBB)
-print('==', msgBB._fields_, '\n', vars(msgBB))
+print('==', msgBB._fields_, '\n', vars(msgBB), '\n', msgBB._f4, '\n', msgBB._f4.__class__, '--is a data-descriptor (auto?)') #help(msgBB._f4)
 
 
 
