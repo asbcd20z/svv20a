@@ -29,7 +29,7 @@ dataclasses-json  https://github.com/gosuai/dataclasses-json
 #@dataclasses.dataclass(*, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False)
 
 
-__debug__ 
+__debug__  #Python » 3.5.2 Documentation » The Python Standard Library » 3. Built-in Constants
 #import this
 #count: int = 0
 def foo(x:int, y:float): pass #function-__annotations__
