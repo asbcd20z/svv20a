@@ -11,6 +11,9 @@ import sys; sys.path ;print(sys.path)
 '''memo
 Documentation » Python 标准库 » Python运行时服务 »
  dataclasses --- 数据类  https://docs.python.org/zh-cn/3.9/library/dataclasses.html
+#https://docs.python.org/3.9/  [HTML Help (.chm) files are made available in the "Files" section on the Python download page.]
+#https://docs.python.org/zh-cn/3.9/download.html
+#https://www.python.org/downloads/release/python-391/
 __annotations__  
 annotation  https://docs.python.org/3.9/glossary.html#term-annotation
 See variable annotation, function annotation, PEP 484 and PEP 526,  
