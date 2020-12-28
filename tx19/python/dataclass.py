@@ -21,6 +21,7 @@ PEP 526 -- Syntax for Variable Annotations  https://www.python.org/dev/peps/pep-
 PEP 484 -- Type Hints                       https://www.python.org/dev/peps/pep-0484/
 PEP 557 -- Data Classes                     https://www.python.org/dev/peps/pep-0557/
 mixin??
+python monkey_patch //Pyhon基础：Monkey Patch（猴子补丁）https://blog.csdn.net/fly910905/article/details/77152110
 #
 理解Python数据类（上）  https://www.sohu.com/a/246836180_114877  https://www.sohu.com/a/246836706_114877
 Python 3.7新功能之dataclass装饰器详解  https://www.jb51.net/article/138596.htm
@@ -32,7 +33,8 @@ dataclasses-json  https://github.com/gosuai/dataclasses-json
 #@dataclasses.dataclass(*, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False)
 
 
-__debug__  #Python » 3.5.2 Documentation » The Python Standard Library » 3. Built-in Constants
+assert 1,'err'
+if __debug__: pass  #-0, Python » 3.5.2 Documentation » The Python Standard Library » 3. Built-in Constants
 #import this
 #count: int = 0
 def foo(x:int, y:float): pass #function-__annotations__
