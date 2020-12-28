@@ -42,10 +42,15 @@ void foor(Data& d_)
 	mybk(2);
 }
 
+
+enum AA{aa1=-1,aa2}; enum AA aa=aa1;
 int main(int ac, char* av[])
 {
 	Data d;
 	foo(d);
 	foor(d);
+	//
+	bool b=false;
+	sizeof(bool)==1;sizeof(AA)==4; ///=1byte like char for this gcc4.9. And enum is like "const int"
 	return 0;
 }
