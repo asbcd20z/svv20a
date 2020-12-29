@@ -1,6 +1,6 @@
 #if 0
 #set -x
-g++ -g   -std=c++11 $0 -o $0.ell ||exit -1
+g++ -g -gstabs+   -std=c++11 $0 -o $0.ell ||exit -1
 #./$0.ell
 #g++ -g -Wall  -std=c++11 -fno-elide-constructors  $0 -o $0.ell ||exit -1
 ls -l $0*
@@ -50,7 +50,7 @@ int main(int ac, char* av[])
 	foo(d);
 	foor(d);
 	//
-	bool b=false;
-	sizeof(bool)==1;sizeof(AA)==4; ///=1byte like char for this gcc4.9. And enum is like "const int"
+	bool b=false; // c没有bool类型, c++中bool长度为4bytes,或1byte(最新g++4.x版本标准)
+	sizeof(bool)==1;sizeof(AA)==4; ///=1byte like char for this g++4.9. And enum is like "const int"
 	return 0;
 }
