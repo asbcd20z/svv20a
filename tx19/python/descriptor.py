@@ -28,7 +28,7 @@
 # 《流畅的Python》  根据描述符中是否定义了__set__方法可以把描述符分为覆盖型和非覆盖型，有__set__方法就是覆盖型描述符, 
 # 覆盖型描述符还可以分为两类，有__get__方法的覆盖型和没有__get__方法的覆盖型。
 #
-#Python学习——面向对象高级之描述符  https://blog.csdn.net/zhaoyun_zzz/article/details/82179481
+#Python学习——面向对象高级之描述符  # https://blog.csdn.net/zhaoyun_zzz/article/details/82179481
 #python关于描述符__set__ ,__get__ , __delete__  https://blog.csdn.net/Mr_Slower/article/details/83590823
 #Python语言学习讲解十六：python之描述符__set__和__get__ 等解释  https://blog.csdn.net/Windgs_YF/article/details/53409482
 #
