@@ -1,0 +1,131 @@
+-rw-r--r-- 1 lzhao019 lte_cp_shg_ftsh02   447 Dec 30 14:05 stru64.cpp
+-rwxr-xr-x 1 lzhao019 lte_cp_shg_ftsh02 11072 Dec 30 14:07 stru64.cpp.ell
+-rwxr-xr-x 1 lzhao019 lte_cp_shg_ftsh02 11072 Dec 30 14:07 stru64.cpp.ell64
+-rw-r--r-- 1 lzhao019 lte_cp_shg_ftsh02     0 Dec 30 14:07 stru64.cpp.ell.objdump
+Warning: changing type size from 4 to 8
+Warning: numeric overflow: (0,14);0;03777777777777777777777777777777777777777777;
+Warning: changing type size from 4 to 8
+Warning: numeric overflow: (0,19);02000000000000000000000000000000000000000000;01777777777777777777777777777777777777777777;
+
+stru64.cpp.ell:     file format elf64-x86-64
+
+Contents of .stab section:
+
+Symnum n_type n_othr n_desc n_value  n_strx String
+
+-1     HdrSym 0      48     000000000000073f 1     
+0      SO     0      4      00000000004004fd 12     /home/lzhao019/tt/
+1      SO     0      4      00000000004004fd 1      stru64.cpp
+2      OPT    0      0      0000000000000000 31     gcc2_compiled.
+3      LSYM   0      0      0000000000000000 46     __float128:t(0,1)=r(0,0);16;0;
+4      LSYM   0      0      0000000000000000 77     long double:t(0,2)=r(0,0);16;0;
+5      LSYM   0      0      0000000000000000 109    __builtin_sysv_va_list:t(0,3)=ar(0,4)=@s64;r(0,4);0;01777777777777777777777;;0;0;(0,5)=xs__va_list_tag:
+6      LSYM   0      0      0000000000000000 213    __builtin_ms_va_list:t(0,6)=*(0,7)=r(0,7);0;127;
+7      LSYM   0      0      0000000000000000 262    __builtin_va_list:t(0,8)=ar(0,4);0;0;(0,5)
+8      LSYM   0      0      0000000000000000 305    complex long double:t(0,9)=R3;32;0;
+9      LSYM   0      0      0000000000000000 341    complex double:t(0,10)=R3;16;0;
+10     LSYM   0      0      0000000000000000 373    complex float:t(0,11)=R3;8;0;
+11     LSYM   0      0      0000000000000000 403    complex int:t(0,12)=s8real:(0,13)=r(0,13);-2147483648;2147483647;,0,32;imag:(0,13),32,32;;
+12     LSYM   0      0      0000000000000000 494    __int128 unsigned:t(0,14)=@s128;r(0,14);0;03777777777777777777777777777777777777777777;
+13     LSYM   0      0      0000000000000000 582    long unsigned int:t(0,15)=@s64;r(0,15);0;01777777777777777777777;
+14     LSYM   0      0      0000000000000000 648    unsigned int:t(0,16)=r(0,16);0;037777777777;
+15     LSYM   0      0      0000000000000000 693    short unsigned int:t(0,17)=@s16;r(0,17);0;65535;
+16     LSYM   0      0      0000000000000000 742    unsigned char:t(0,18)=@s8;r(0,18);0;255;
+17     LSYM   0      0      0000000000000000 783    __int128:t(0,19)=@s128;r(0,19);02000000000000000000000000000000000000000000;01777777777777777777777777777777777777777777;
+18     LSYM   0      0      0000000000000000 905    long int:t(0,20)=@s64;r(0,20);01000000000000000000000;0777777777777777777777;
+19     LSYM   0      0      0000000000000000 983    int:t(0,13)
+20     LSYM   0      0      0000000000000000 995    short int:t(0,21)=@s16;r(0,21);-32768;32767;
+21     LSYM   0      0      0000000000000000 1040   signed char:t(0,22)=@s8;r(0,22);-128;127;
+22     LSYM   0      0      0000000000000000 1082   char:t(0,7)
+23     LSYM   0      0      0000000000000000 1094   signed:t(0,13)
+24     LSYM   0      0      0000000000000000 1109   unsigned long:t(0,15)
+25     LSYM   0      0      0000000000000000 1131   long long int:t(0,23)=@s64;r(0,23);01000000000000000000000;0777777777777777777777;
+26     LSYM   0      0      0000000000000000 1214   long long unsigned int:t(0,24)=@s64;r(0,24);0;01777777777777777777777;
+27     LSYM   0      0      0000000000000000 1285   long long unsigned:t(0,24)
+28     LSYM   0      0      0000000000000000 1312   unsigned short:t(0,17)
+29     LSYM   0      0      0000000000000000 1335   float:t(0,25)=r(0,13);4;0;
+30     LSYM   0      0      0000000000000000 1362   double:t(0,26)=r(0,13);8;0;
+31     LSYM   0      0      0000000000000000 1390   void:t(0,27)=(0,27)
+32     LSYM   0      0      0000000000000000 1410   wchar_t:t(0,28)=r(0,28);-2147483648;2147483647;
+33     LSYM   0      0      0000000000000000 1458   bool:t(0,29)=@s8;-16;
+34     LSYM   0      0      0000000000000000 1480   __vtbl_ptr_type:t(0,30)=*(0,31)=f(0,13)
+35     LSYM   0      0      0000000000000000 1520   decltype(nullptr):t(0,32)=(0,32)
+36     LSYM   0      9      0000000000000000 1553   mydef64:Tt(0,33)=s40c1:(0,7),0,8;i2:(0,13),32,32;c3:(0,7),64,8;l4:(0,20),128,64;ll5:(0,23),192,64;d6:(0,26),256,64;;
+37     LSYM   0      19     0000000000000000 1670   myp64:Tt(0,34)=s24c1:(0,7),0,8;pi:(0,35)=*(0,13),64,64;l3:(0,20),128,64;;
+38     LSYM   0      26     0000000000000000 1744   mys1:Tt(0,36)=s10c1:(0,7),0,8;d2:(0,26),8,64;c3:(0,7),72,8;;
+39     FUN    0      33     00000000004004fd 1805   main:F(0,13)
+40     PSYM   0      33     00000000fffffffc 1818   ac:p(0,13)
+41     PSYM   0      33     00000000fffffff0 1829   av:p(0,37)=*(0,38)=*(0,7)
+42     BNSYM  0      0      00000000004004fd 0      
+43     SLINE  0      34     0000000000000000 0      
+44     SLINE  0      35     000000000000000b 0      
+45     FUN    0      0      0000000000000012 0      
+46     ENSYM  0      0      000000000040050f 0      
+47     SO     0      0      000000000040050f 0      
+
+/home/lzhao019/tt/stru64.cpp:
+typedef float128 __float128;
+typedef float128 long double;
+typedef struct __va_list_tag /* id 0 */ __builtin_sysv_va_list[1]:uint64;
+typedef int8 *__builtin_ms_va_list;
+typedef struct __va_list_tag /* id 0 */ __builtin_va_list[1]:uint64;
+typedef complex float0 complex long double;
+typedef complex float0 complex double;
+typedef complex float0 complex float;
+typedef struct %anon1 { /* size 8 */
+  int32 real; /* bitsize 32, bitpos 0 */
+  int32 imag; /* bitsize 32, bitpos 32 */
+} complex int;
+typedef void __int128 unsigned;
+typedef uint64 long unsigned int;
+typedef uint32 unsigned int;
+typedef uint16 short unsigned int;
+typedef uint8 unsigned char;
+typedef void __int128;
+typedef int64 long int;
+typedef int32 int;
+typedef int16 short int;
+typedef int8 signed char;
+typedef int8 char;
+typedef int32 signed;
+typedef long unsigned int unsigned long;
+typedef int64 long long int;
+typedef uint64 long long unsigned int;
+typedef long long unsigned int long long unsigned;
+typedef short unsigned int unsigned short;
+typedef float float;
+typedef double double;
+typedef void void;
+typedef int32 wchar_t;
+typedef bool32 boolean;
+typedef boolean bool;
+typedef int32 (*__vtbl_ptr_type) (/* unknown */);
+typedef void decltype(nullptr);
+struct mydef64 { /* size 40 id 2 */
+  int8 c1; /* bitsize 8, bitpos 0 */
+  int32 i2; /* bitsize 32, bitpos 32 */
+  int8 c3; /* bitsize 8, bitpos 64 */
+  long int l4; /* bitsize 64, bitpos 128 */
+  long long int ll5; /* bitsize 64, bitpos 192 */
+  double d6; /* bitsize 64, bitpos 256 */
+};
+typedef struct mydef64 /* id 2 */ mydef64;
+struct myp64 { /* size 24 id 3 */
+  int8 c1; /* bitsize 8, bitpos 0 */
+  int32 *pi; /* bitsize 64, bitpos 64 */
+  long int l3; /* bitsize 64, bitpos 128 */
+};
+typedef struct myp64 /* id 3 */ myp64;
+struct mys1 { /* size 10 id 4 */
+  int8 c1; /* bitsize 8, bitpos 0 */
+  double d2; /* bitsize 64, bitpos 8 */
+  int8 c3; /* bitsize 8, bitpos 72 */
+};
+typedef struct mys1 /* id 4 */ mys1;
+int32 main (int32 ac /* 0xfffffffc */, int8 **av /* 0xfffffff0 */)
+{ /* 0x4004fd */
+  /* file /home/lzhao019/tt/stru64.cpp line 34 addr 0x4004fd */
+  /* file /home/lzhao019/tt/stru64.cpp line 35 addr 0x400508 */
+} /* 0x40050f */
+struct __va_list_tag { /* id 0 */
+};
