@@ -5,6 +5,11 @@
 # 16.16. ctypes — A foreign function library for Python
 #ctypes --- Python 的外部函数库 # https://docs.python.org/zh-cn/3.7/library/ctypes.html
 # Q: how to enum?-instead by c_int? (from enum import Enum; can't be well with ctypes?)
+#
+#[Python]ctypes+struct实现类c的结构化数据串行处理 https://www.cnblogs.com/code1992/p/11301586.html 
+#  python调用C++ DLL 传参技巧  (cast)   https://www.cnblogs.com/TQCAI/p/8881530.html
+#[Python]ctypes+struct实现类c的结构化数据串行处理 https://blog.csdn.net/machael_sonic/article/details/50266499 https://blog.csdn.net/mergerly/article/details/76858589
+#
 
 
 import sys; sys.path ;print(sys.path)

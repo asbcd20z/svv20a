@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #test_so.py
-# https://blog.csdn.net/claroja/article/details/79237887
-# https://www.cnblogs.com/MakeView660/p/12486936.html
+# ctypes (###)  https://blog.csdn.net/claroja/article/details/79237887
+# python 使用ctypes调用C/C++ dll  https://www.cnblogs.com/MakeView660/p/12486936.html
+#
 from ctypes import cdll
 import os
 
