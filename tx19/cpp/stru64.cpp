@@ -1,5 +1,6 @@
 #if 0
 g++ -g -gstabs+ $0 -o $0.ell ||exit -1;
+g++ -g -gstabs+ $0 -c
 ls -l $0*
 objdump -Gg $0.ell  # >& $0.ell.cpu64
 exit 0;
