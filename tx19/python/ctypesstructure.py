@@ -4,7 +4,8 @@
 #python352.chm- 3.5.2 Documentation » The Python Standard Library » 16. Generic Operating System Services » 
 # 16.16. ctypes — A foreign function library for Python
 #ctypes --- Python 的外部函数库 # https://docs.python.org/zh-cn/3.7/library/ctypes.html
-# Q: how to enum?-instead by c_int? (from enum import Enum; can't be well with ctypes?)
+# Q: how to enum?-instead by c_int (eg: myEnum1=ctypes.c_int)? //(from enum import Enum; can't be well with ctypes?)
+#        or class myEnum1(ctypes.c_int):pass;  然后甚至可以加__doc__描述可用的枚举值，或get/set值限制?
 #
 #[Python]ctypes+struct实现类c的结构化数据串行处理 https://www.cnblogs.com/code1992/p/11301586.html 
 #  python调用C++ DLL 传参技巧  (cast)   https://www.cnblogs.com/TQCAI/p/8881530.html
@@ -87,7 +88,7 @@ c2=mycc.from_buffer_copy(string_at(addressof(c), sizeof(c))); print('==', c2, c2
 
 class mydata(ctypes.Structure):
     #_pack_   = 4;#min(pack,self)
-    _fields_ = [("b1", ctypes.c_bool),
+    _fields_ = [("b1", ctypes.c_bool), # 1byte for bool accortding to new g++:
                 ("b2", ctypes.c_byte),
                 ("c3", ctypes.c_char),
                 ("l4", ctypes.c_short),
