@@ -24,20 +24,26 @@ class B(A):
 	def spam(self):
 		print('spam')
 
+class CC:pass
+
 a=A()
 print("--")
 A.x1  ## A.x1 not use __getattribute__, which "Called unconditionally to implement attribute accesses for instances of the class"
 a.x1
 a.x2  ## not work,for x2 is excluded by bad __setattr__
 a.x3=3
+print("--")
+print([a.x3, getattr(a,'x3')])
 print("---")
 b=B()
 'to',b.spam,B.spam
 'call',b.spam(),B.spam
 b.bx
 #b.by
-
-
+print("---")
+c=CC()
+#setattr(c,'x',1)
+print(['c.x-default', getattr(c,'x',99)])
 
 
 
