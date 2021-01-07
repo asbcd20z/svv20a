@@ -26,18 +26,18 @@ using namespace std;
 
 
 struct CA{
-static int _x;
+static int _x;  /// declare for static member
 //int _x; //error: 'int CA::_x' conflicts with a previous declaration
 int _y;
 };
 
 struct CB: CA{
-int _y;  //CA::_x is hided?
+int _y;  //CA::_y is hided?
 int _z;
 };
 
 
-int CA::_x=99;
+int CA::_x=99; /// define for static member, but must not with 'static' here
 
 int main()
 {
