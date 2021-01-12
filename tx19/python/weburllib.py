@@ -27,7 +27,7 @@ req = urllib.request.Request(url='https://www.baidu.com');
 #print(os.environ['https_proxy'], os.environ)
 print(os.getenv('https_proxy'), os.environ)
 #os.putenv('https_proxy', '135.251.33.16:8080')  # affect subprocesses only
-os.environ['https_proxy'] = '135.251.33.16:8080' # change environ varable here, or in shell command
+if (not os.getenv('https_proxy')):os.environ['https_proxy'] = '135.251.33.16:8080' # change environ varable here, or in shell command
 print(os.getenv('https_proxy'))
 with urllib.request.urlopen(req) as f: print(f.getcode(),f.geturl(),f.info(),f.read(666).decode('utf-8'))
 #import urllib,ssl
