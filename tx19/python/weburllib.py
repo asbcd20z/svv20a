@@ -18,11 +18,17 @@ print("hi..")
 #关于python requests包新版本设置代理的问题  https://www.cnblogs.com/piperck/p/5045487.html
 #
 #
-#https_proxy=135.251.33.16:8080  pyy -i urllibweb.py  #for http://www.baidu.com
+#https_proxy=135.251.33.16:8080  pyy -i weburllib.py  #for http://www.baidu.com
 import urllib.request
+import os
 #req = urllib.request.Request(url='http://www.baidu.com')
 req = urllib.request.Request(url='https://www.baidu.com');
 #req.set_proxy("135.251.33.16:8080","https") # error,why?
+#print(os.environ['https_proxy'], os.environ)
+print(os.getenv('https_proxy'), os.environ)
+#os.putenv('https_proxy', '135.251.33.16:8080')  # affect subprocesses only
+os.environ['https_proxy'] = '135.251.33.16:8080' # change environ varable here, or in shell command
+print(os.getenv('https_proxy'))
 with urllib.request.urlopen(req) as f: print(f.getcode(),f.geturl(),f.info(),f.read(666).decode('utf-8'))
 #import urllib,ssl
 
