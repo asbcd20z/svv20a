@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20200624
+	#@time20210115
 	#git clean -f
 	#git reset    <cid> <file> ---only update INDEX
 	#git checkout <cid> <file> ---both update INDEX and workspace,or only update workspace from INDEX if without cid
@@ -51,11 +51,12 @@
 	#reflog
 	st = status
 	hh = help
+	#git apply --check my.pat; git apply -3 my.pat; git apply --reject my.pat #patch
 
 [xcolor]
 	status=auto
 [xhttp]
-	#http_proxy=http://10.158.100.8:8080//sct
+	#http_proxy=http://10.158.100.8:8080 #//sct
 #        proxy = 135.245.48.34:8000
 #	proxy = 135.251.33.16:8080 #15
 #       proxy = 10.167.32.133:8080
