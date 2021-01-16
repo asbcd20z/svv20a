@@ -8,6 +8,7 @@
 # __getattr__() ..., __getattribute__()
 #python描述符理解 www.cnblogs.com/wancy86/p/descriptor.html
 #python核心编程v2-13.16.3  特殊方法__getattribute__()
+#python2[转载]Python方法绑定——Unbound/Bound method object的一些梳理 https://segmentfault.com/a/1190000004278331
 #
 #Python的__getattribute__二三事 https://www.cnblogs.com/telecomshy/p/10605679.html
 #Python描述符深入理解        #   https://www.cnblogs.com/telecomshy/p/10168853.html
