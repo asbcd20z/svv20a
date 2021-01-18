@@ -1,5 +1,6 @@
 /debug/
 /out/
+#*/cpp/lvrvo.s
 *.out
 *.o
 *.so
