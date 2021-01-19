@@ -52,6 +52,7 @@
 	st = status
 	hh = help
 	#git apply --check my.pat; git apply -3 my.pat; git apply --reject my.pat #patch
+	#git branch [--track | --no-track] [-f] <branchname> [<start-point>]
 	#git branch (--set-upstream-to=<upstream> | -u <upstream>) [<branchname>]
 
 [xcolor]
