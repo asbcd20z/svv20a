@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="摘自http://www.tuicool.com/articles/EvIzUn gcc选项-g与-rdynamic的异同 gcc&amp;#160;的&amp;#160;-g&amp;#160;，应该没有人不知道它是一个调" />
+    <meta property="og:description" content="摘自http://www.tuicool.com/articles/EvIzUn gcc选项-g与-rdynamic的异同 gcc&amp;#160;的&amp;#160;-g&amp;#160;，应该没有人不知道它是一个调" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>gcc选项-g与-rdynamic的异同 - LiuYanYGZ - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=W6QuXU71Tt2xl_vmEJsvYVHjgQIjiKuSVy63Q4eKtMA" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/LiuYanYGZ/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/LiuYanYGZ/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/LiuYanYGZ/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 272863;
+        var currentBlogApp = 'LiuYanYGZ';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-06-01 06:08';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=V0BbkkQE24zt1D_4TRGfRwcCB1E3YoBpH5YOp1qKoxA"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://developer.aliyun.com/topic/2021act?utm_content=g_1000227941" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-mobile-bannerbar')">
+                <img src="https://img2020.cnblogs.com/blog/35695/202101/35695-20210118213535627-1440560579.jpg" alt="" />
+            </a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/LiuYanYGZ/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/LiuYanYGZ/">LiuYanYGZ</a>
+</h1>
+<h2>问号 惊叹号</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/LiuYanYGZ/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/LiuYanYGZ">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/LiuYanYGZ/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 933&nbsp; </span>
+<span id="stats_article_count">文章 - 6&nbsp; </span>
+<span id="stats-comment_count">评论 - 15</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/LiuYanYGZ/p/5550544.html">
+    <span>gcc选项-g与-rdynamic的异同</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body">
+<p>https://www.cnblogs.com/LiuYanYGZ/p/5550544.html</p>
+    <p>摘自http://www.tuicool.com/articles/EvIzUn</p>
+<h1>gcc选项-g与-rdynamic的异同</h1>
+<p><a title="查看 gcc 中的全部文章" href="http://lenky.info/tag/gcc/">gcc</a>&nbsp;的&nbsp;<a title="查看 -g 中的全部文章" href="http://lenky.info/tag/g/">-g</a>&nbsp;，应该没有人不知道它是一个调试选项，因此在一般需要进行程序调试的场景下，我们都会加上该选项，并且根据调试工具的不同，还能直接选择更有针对性的说明，比如&nbsp;<a href="http://gcc.gnu.org/onlinedocs/gcc-4.4.0/gcc/Debugging-Options.html">-ggdb</a>&nbsp;。-g是一个编译选项，即在源代码编译的过程中起作用，让gcc把更多调试信息（也就包括符号信息）收集起来并将存放到最终的可执行文件内。&nbsp;<br>相比-g选项，&nbsp;<a title="查看 -rdynamic 中的全部文章" href="http://lenky.info/tag/rdynamic/">-rdynamic</a>&nbsp;却是一个&nbsp;<a href="http://gcc.gnu.org/onlinedocs/gcc/Link-Options.html">连接选项</a>&nbsp;，它将指示连接器把所有符号（而不仅仅只是程序已使用到的外部符号）都添加到动态符号表（即.dynsym表）里，以便那些通过&nbsp;<a href="http://man7.org/linux/man-pages/man3/dlopen.3.html">dlopen()</a>&nbsp;或&nbsp;<a href="http://www.kernel.org/doc/man-pages/online/pages/man3/backtrace.3.html">backtrace()</a>&nbsp;（这一系列函数使用.dynsym表内符号）这样的函数使用。</p>
+<p>看示例：</p>
+<pre class="prettyprint cs">[root@www c]<span class="preprocessor"># cat t.c
+<span class="preprocessor">#include &lt;stdio.h&gt;
+<span class="keyword">void bar() {}
+<span class="keyword">void baz() {}
+<span class="keyword">void foo() {}
+<span class="keyword">int main() { foo(); printf(<span class="string">"test"); <span class="keyword">return <span class="number">0; }</span></span></span></span></span></span></span></span></span></pre>
+<p>对于上面的示例代码，普通和加-g编译：</p>
+<pre class="prettyprint ruby">[root<span class="variable">@www c]<span class="comment"># uname -a
+<span class="constant">Linux www.t1.com <span class="number">2.6.<span class="number">38.8 <span class="comment">#2 SMP Wed Nov 2 07:52:53 CST 2011 x86_64 x86_64 x86_64 GNU/Linux
+[root<span class="variable">@www c]<span class="comment"># gcc -O0 -o t t.c
+[root<span class="variable">@www c]<span class="comment"># gcc -O0 -g -o t.g t.c
+[root<span class="variable">@www c]<span class="comment"># readelf -a t &gt; t.elf
+[root<span class="variable">@www c]<span class="comment"># readelf -a t.g &gt; t.g.elf
+[root<span class="variable">@www c]<span class="comment"># ls -lh *.elf t t.g
+-rwxr-xr-x. <span class="number">1 root root <span class="number">6.6K <span class="constant">Jul <span class="number">24 <span class="number">06<span class="symbol">:<span class="number">50 t
+-rw-r--r--. <span class="number">1 root root  <span class="number">15K <span class="constant">Jul <span class="number">24 <span class="number">06<span class="symbol">:<span class="number">51 t.elf
+-rwxr-xr-x. <span class="number">1 root root <span class="number">7.9K <span class="constant">Jul <span class="number">24 <span class="number">06<span class="symbol">:<span class="number">50 t.g
+-rw-r--r--. <span class="number">1 root root  <span class="number">16K <span class="constant">Jul <span class="number">24 <span class="number">06<span class="symbol">:<span class="number">51 t.g.elf</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>加-g编译后，因为包含了debug信息，因此生成的可执行文件偏大（程序本身非常小，所以增加的调试信息不多）。&nbsp;<br>看-g编译的符号表：</p>
+<pre class="prettyprint php">[root@www c]<span class="comment"># readelf -s t
+
+Symbol table <span class="string">'.dynsym' contains <span class="number">4 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+     <span class="number">0: <span class="number">0000000000000000     <span class="number">0 NOTYPE  LOCAL  <span class="keyword">DEFAULT  UND
+     <span class="number">1: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND printf@GLIBC_2<span class="number">.2<span class="number">.5 (<span class="number">2)
+     <span class="number">2: <span class="number">0000000000000000     <span class="number">0 NOTYPE  WEAK   <span class="keyword">DEFAULT  UND __gmon_start__
+     <span class="number">3: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND __libc_start_main@GLIBC_2<span class="number">.2<span class="number">.5 (<span class="number">2)
+
+Symbol table <span class="string">'.symtab' contains <span class="number">67 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+...
+    <span class="number">48: <span class="number">00000000004003e0     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 _start
+    <span class="number">49: <span class="number">00000000004004c4     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 bar
+...
+    <span class="number">53: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND putchar@@GLIBC_2<span class="number">.2<span class="number">.5
+    <span class="number">54: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND __libc_start_main@@GLIBC_
+    <span class="number">55: <span class="number">00000000004005e8     <span class="number">4 OBJECT  <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">15 _IO_stdin_used
+    <span class="number">56: <span class="number">00000000004004d0     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 foo
+...
+    <span class="number">64: <span class="number">00000000004004d6    <span class="number">31 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 main
+    <span class="number">65: <span class="number">0000000000400390     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">11 _init
+    <span class="number">66: <span class="number">00000000004004ca     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 baz</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>注意.dynsym表，只有该程序用到的几个外部动态符号存在。&nbsp;<br>加-rdynamic选项编译，readelf查看：</p>
+<pre class="prettyprint php">[root@www c]<span class="comment"># gcc -O0 -rdynamic -o t.rd t.c
+[root@www c]<span class="comment"># readelf -s t.rd 
+
+Symbol table <span class="string">'.dynsym' contains <span class="number">20 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+     <span class="number">0: <span class="number">0000000000000000     <span class="number">0 NOTYPE  LOCAL  <span class="keyword">DEFAULT  UND
+     <span class="number">1: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND printf@GLIBC_2<span class="number">.2<span class="number">.5 (<span class="number">2)
+     <span class="number">2: <span class="number">0000000000000000     <span class="number">0 NOTYPE  WEAK   <span class="keyword">DEFAULT  UND __gmon_start__
+     <span class="number">3: <span class="number">0000000000000000     <span class="number">0 NOTYPE  WEAK   <span class="keyword">DEFAULT  UND _Jv_RegisterClasses
+     <span class="number">4: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND __libc_start_main@GLIBC_2<span class="number">.2<span class="number">.5 (<span class="number">2)
+     <span class="number">5: <span class="number">0000000000400724     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 bar
+     <span class="number">6: <span class="number">0000000000400730     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 foo
+     <span class="number">7: <span class="number">0000000000600b68     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">24 __data_start
+     <span class="number">8: <span class="number">0000000000600b80     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT  ABS _end
+     <span class="number">9: <span class="number">0000000000600b6c     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT  ABS _edata
+    <span class="number">10: <span class="number">0000000000600b68     <span class="number">0 NOTYPE  WEAK   <span class="keyword">DEFAULT   <span class="number">24 data_start
+    <span class="number">11: <span class="number">0000000000400640     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 _start
+    <span class="number">12: <span class="number">0000000000400848     <span class="number">4 OBJECT  <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">15 _IO_stdin_used
+    <span class="number">13: <span class="number">0000000000400770   <span class="number">137 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 __libc_csu_init
+    <span class="number">14: <span class="number">0000000000600b6c     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT  ABS __bss_start
+    <span class="number">15: <span class="number">0000000000400736    <span class="number">39 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 main
+    <span class="number">16: <span class="number">00000000004005f0     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">11 _init
+    <span class="number">17: <span class="number">0000000000400760     <span class="number">2 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 __libc_csu_fini
+    <span class="number">18: <span class="number">0000000000400838     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">14 _fini
+    <span class="number">19: <span class="number">000000000040072a     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 baz
+
+Symbol table <span class="string">'.symtab' contains <span class="number">67 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+...
+    <span class="number">50: <span class="number">0000000000400640     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 _start
+    <span class="number">51: <span class="number">0000000000400724     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 bar
+...
+    <span class="number">55: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND putchar@@GLIBC_2<span class="number">.2<span class="number">.5
+    <span class="number">56: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND __libc_start_main@@GLIBC_
+    <span class="number">57: <span class="number">0000000000400848     <span class="number">4 OBJECT  <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">15 _IO_stdin_used
+    <span class="number">58: <span class="number">0000000000400730     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 foo
+...
+    <span class="number">64: <span class="number">0000000000400736    <span class="number">31 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 main
+    <span class="number">65: <span class="number">00000000004005f0     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">11 _init
+    <span class="number">66: <span class="number">000000000040072a     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 baz
+[root@www c]<span class="comment">#</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>可以看到添加-rdynamic选项后，.dynsym表就包含了所有的符号，不仅是已使用到的外部动态符号，还包括本程序内定义的符号，比如bar、foo、baz等。&nbsp;<br>.dynsym表里的数据并不能被strip掉：</p>
+<pre class="prettyprint php">[root@www c]<span class="comment"># strip t.rd
+[root@www c]<span class="comment"># readelf -s t.rd
+
+Symbol table <span class="string">'.dynsym' contains <span class="number">20 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+     <span class="number">0: <span class="number">0000000000000000     <span class="number">0 NOTYPE  LOCAL  <span class="keyword">DEFAULT  UND
+     <span class="number">1: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND printf@GLIBC_2<span class="number">.2<span class="number">.5 (<span class="number">2)
+     <span class="number">2: <span class="number">0000000000000000     <span class="number">0 NOTYPE  WEAK   <span class="keyword">DEFAULT  UND __gmon_start__
+     <span class="number">3: <span class="number">0000000000000000     <span class="number">0 NOTYPE  WEAK   <span class="keyword">DEFAULT  UND _Jv_RegisterClasses
+     <span class="number">4: <span class="number">0000000000000000     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT  UND __libc_start_main@GLIBC_2<span class="number">.2<span class="number">.5 (<span class="number">2)
+     <span class="number">5: <span class="number">0000000000400724     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 bar
+     <span class="number">6: <span class="number">0000000000400730     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 foo
+     <span class="number">7: <span class="number">0000000000600b68     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">24 __data_start
+     <span class="number">8: <span class="number">0000000000600b80     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT  ABS _end
+     <span class="number">9: <span class="number">0000000000600b6c     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT  ABS _edata
+    <span class="number">10: <span class="number">0000000000600b68     <span class="number">0 NOTYPE  WEAK   <span class="keyword">DEFAULT   <span class="number">24 data_start
+    <span class="number">11: <span class="number">0000000000400640     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 _start
+    <span class="number">12: <span class="number">0000000000400848     <span class="number">4 OBJECT  <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">15 _IO_stdin_used
+    <span class="number">13: <span class="number">0000000000400770   <span class="number">137 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 __libc_csu_init
+    <span class="number">14: <span class="number">0000000000600b6c     <span class="number">0 NOTYPE  <span class="keyword">GLOBAL <span class="keyword">DEFAULT  ABS __bss_start
+    <span class="number">15: <span class="number">0000000000400736    <span class="number">39 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 main
+    <span class="number">16: <span class="number">00000000004005f0     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">11 _init
+    <span class="number">17: <span class="number">0000000000400760     <span class="number">2 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 __libc_csu_fini
+    <span class="number">18: <span class="number">0000000000400838     <span class="number">0 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">14 _fini
+    <span class="number">19: <span class="number">000000000040072a     <span class="number">6 FUNC    <span class="keyword">GLOBAL <span class="keyword">DEFAULT   <span class="number">13 baz</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>简单总结一下-g选项与-rdynamic选项的差别：&nbsp;<br>1，-g选项新添加的是调试信息（一系列.debug_xxx段），被相关调试工具，比如gdb使用，可以被strip掉。</p>
+<p>2，-rdynamic选项新添加的是动态连接符号信息，用于动态连接功能，比如dlopen()系列函数、backtrace()系列函数使用，不能被strip掉，即强制strip将导致程序无法执行：</p>
+<pre class="prettyprint ruby">[root<span class="variable">@www c]<span class="comment"># ./t.rd
+test[root<span class="variable">@www c]<span class="comment"># strip -R .dynsym t.rd
+[root<span class="variable">@www c]<span class="comment"># ./t.rd
+.<span class="regexp">/t.rd: relocation error: ./t.<span class="symbol">rd: symbol , version <span class="constant">GLIBC_2.<span class="number">2.5 <span class="keyword">not <span class="keyword">defined <span class="keyword">in file libc.so.<span class="number">6 with link time reference
+[root<span class="variable">@www c]<span class="comment">#</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>3，.symtab表在程序加载时会被加载器&nbsp;<a href="https://blogs.oracle.com/ali/entry/inside_elf_symbol_tables">丢弃</a>&nbsp;，gdb等调试工具由于可以直接访问到磁盘上的二进制程序文件：</p>
+<pre class="prettyprint bash">[root@www c]<span class="comment"># gdb t.g -q
+Reading symbols from /home/work/dladdr/c/t.g...<span class="keyword">done.
+(gdb)</span></span></pre>
+<p>因此可以使用所有的调试信息，这包括.symtab表；而backtrace()系列函数作为程序执行的逻辑功能，无法去读取磁盘上的二进制程序文件，因此只能使用.dynsym表。&nbsp;<br>其它几个工具可以动态指定查看，比如nm、objdump：</p>
+<pre class="prettyprint perl">[root<span class="variable">@www c]<span class="comment"># nm t.rd
+nm: t.rd: <span class="keyword">no symbols
+[root<span class="variable">@www c]<span class="comment"># nm -D t.rd
+<span class="number">0000000000400848 R _IO_stdin_used
+                 w _Jv_RegisterClasses
+<span class="number">0000000000600b6c A __bss_start
+<span class="number">0000000000600b68 D __data_start
+                 w __gmon_start_<span class="number">_
+<span class="number">0000000000400760 T __libc_csu_fini
+<span class="number">0000000000400770 T __libc_csu_init
+                 U __libc_start_main
+<span class="number">0000000000600b6c A _edata
+<span class="number">0000000000600b8<span class="number">0 A _end
+<span class="number">0000000000400838 T _fini
+<span class="number">00000000004005f<span class="number">0 T _init
+<span class="number">0000000000400640 T _start
+<span class="number">0000000000400724 T bar
+<span class="number">000000000040072a T baz
+<span class="number">0000000000600b68 W data_start
+<span class="number">0000000000400730 T foo
+<span class="number">0000000000400736 T main
+                 U <span class="keyword">printf
+[root<span class="variable">@www c]<span class="comment">#
+[root<span class="variable">@www c]<span class="comment"># objdump -T t.rd
+
+t.rd:     file <span class="keyword">format elf64-x86-<span class="number">64
+
+DYNAMIC SYMBOL TABLE:
+<span class="number">0000000000000000      DF <span class="variable">*UND*	<span class="number">0000000000000000  GLIBC_2.<span class="number">2.5 <span class="keyword">printf
+<span class="number">0000000000000000  w   D  <span class="variable">*UND*	<span class="number">0000000000000000              __gmon_start_<span class="number">_
+<span class="number">0000000000000000  w   D  <span class="variable">*UND*	<span class="number">0000000000000000              _Jv_RegisterClasses
+<span class="number">0000000000000000      DF <span class="variable">*UND*	<span class="number">0000000000000000  GLIBC_2.<span class="number">2.5 __libc_start_main
+<span class="number">0000000000400724 g    DF .text	<span class="number">0000000000000006  Base        bar
+<span class="number">0000000000400730 g    DF .text	<span class="number">0000000000000006  Base        foo
+<span class="number">0000000000600b68 g    D  .data	<span class="number">0000000000000000  Base        __data_start
+<span class="number">0000000000600b8<span class="number">0 g    D  <span class="variable">*ABS*	<span class="number">0000000000000000  Base        _end
+<span class="number">0000000000600b6c g    D  <span class="variable">*ABS*	<span class="number">0000000000000000  Base        _edata
+<span class="number">0000000000600b68  w   D  .data	<span class="number">0000000000000000  Base        data_start
+<span class="number">0000000000400640 g    DF .text	<span class="number">0000000000000000  Base        _start
+<span class="number">0000000000400848 g    DO .rodata	<span class="number">0000000000000004  Base        _IO_stdin_used
+<span class="number">0000000000400770 g    DF .text	<span class="number">0000000000000089  Base        __libc_csu_init
+<span class="number">0000000000600b6c g    D  <span class="variable">*ABS*	<span class="number">0000000000000000  Base        __bss_start
+<span class="number">0000000000400736 g    DF .text	<span class="number">0000000000000027  Base        main
+<span class="number">00000000004005f<span class="number">0 g    DF .init	<span class="number">0000000000000000  Base        _init
+<span class="number">0000000000400760 g    DF .text	<span class="number">0000000000000002  Base        __libc_csu_fini
+<span class="number">0000000000400838 g    DF .fini	<span class="number">0000000000000000  Base        _fini
+<span class="number">000000000040072a g    DF .text	<span class="number">0000000000000006  Base        baz</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>4，-rdynamic选项不产生任何调试信息，因此在一般情况下，新增的附加信息比-g选项要少得多。除非是完全的静态连接，否则即便是没有加-rdynamic选项，程序使用到的外部动态符号，比如前面示例里的printf，也会被自动加入到.dynsym表。</p>
+<p>完全参考：&nbsp;<br><a href="http://stackoverflow.com/questions/8623884/gcc-debug-symbols-g-flag-vs-linkers-rdynamic-option">http://stackoverflow.com/questions/8623884/gcc-debug-symbols-g-flag-vs-linkers-rdynamic-option</a></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2016-06-01 18:08</span>&nbsp;
+<a href="https://www.cnblogs.com/LiuYanYGZ/">LiuYanYGZ</a>&nbsp;
+阅读(<span id="post_view_count">17686</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5550544" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(5550544);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 272863, cb_blogApp = 'LiuYanYGZ', cb_blogUserGuid = '2ef912c4-4ec6-e411-b908-9dcfd8948a71';
+    var cb_entryId = 5550544, cb_entryCreatedDate = '2016-06-01 18:08', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 LiuYanYGZ
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>
