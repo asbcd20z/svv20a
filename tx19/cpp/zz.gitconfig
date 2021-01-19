@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20210115
+	#@time20210119
 	#git clean -f
 	#git reset    <cid> <file> ---only update INDEX
 	#git checkout <cid> <file> ---both update INDEX and workspace,or only update workspace from INDEX if without cid
@@ -52,6 +52,7 @@
 	st = status
 	hh = help
 	#git apply --check my.pat; git apply -3 my.pat; git apply --reject my.pat #patch
+	#git branch (--set-upstream-to=<upstream> | -u <upstream>) [<branchname>]
 
 [xcolor]
 	status=auto
