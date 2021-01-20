@@ -1,3 +1,13 @@
+#if 0
+gcc -fPIC -shared func.c -o libfunc.so ||exit -1;
+#nm libfunc.so -D
+gcc -fPIC  $0 -o $0.ell ||exit -1
+gcc -fPIC  $0 -o $0.ellr -rdynamic ||exit -1
+#gcc -fPIC  $0 -o libfunc.so  -rdynamic ||exit -1  #cygfault, and linux fails with 'cannot dynamically load executable'
+#ls
+exit 0;
+#endif
+
 //$ gcc -fPIC -shared func.c -o libfunc.so
 /* func.c */
 #include <stdio.h>
@@ -27,3 +37,6 @@ struct mycc func2(int a)
 	c.i4=a;
 	return c;
 }
+
+
+int main(int ac, char* av[]){printf("hi..\n:");}

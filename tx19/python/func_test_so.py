@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
+#-*- coding:utf-8 -*-
 #test_so.py
 # ctypes (###)  https://blog.csdn.net/claroja/article/details/79237887
 # python 使用ctypes调用C/C++ dll  https://www.cnblogs.com/MakeView660/p/12486936.html
