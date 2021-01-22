@@ -10,7 +10,7 @@ import os
 #f= CDLL(os.getcwd() + '/libfunc.so')
 p = os.getcwd() + '/libfunc.so'
 f = cdll.LoadLibrary(p)
-print p,':', f.func(99)
+print (p,':', f.func(99))
 
 ##==write-to-buffer-and-call-as-parameter
 import ctypes
@@ -18,6 +18,14 @@ from ctypes import *
 class mycc(Structure):pass
 #mycc._pack_ =4;
 mycc._fields_=[('c1',c_char),('i2',c_int),('s3',c_short*22),('i4',c_int)]  ##('s3',c_short*20),but 22 for error test
+
+c=mycc();c.s3[21]=0xabcd; #c.s3[20]=0x1234
+print ('sizeof:',sizeof(mycc),sizeof(c))
+print (f.fcc(c))
+
+
+#'''
+#== python2 only
 c=mycc('B',3, i4=0x12345678);c.s3[21]=0xabcd
 print 'sizeof:',sizeof(mycc),sizeof(c)
 print f.fcc(c)
@@ -46,4 +54,6 @@ rtc=f.func2(77); print rtc, rtc.i2, string_at(addressof(rtc), sizeof(rtc)), [ord
 
 #POINTER(type), addressof(c),byref(c),pointer(c),
 #[ord(i) for i in string_at(addressof(c), sizeof(c))]
-print '-end'
+#'''
+
+print ('-end')

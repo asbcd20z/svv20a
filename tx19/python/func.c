@@ -17,9 +17,10 @@ int i2;
 short s3[20];//20,22
 int i4;
 };
+//
 int fcc(struct mycc c)
 {
-printf("--sizeof: %d--arg:%c,%d,%d,%x,%p\n", sizeof(c),c.c1,c.i2,c.s3[1],c.i4,&c);
+printf("--fcc, sizeof: %d--arg:%c,%d,%d,%X,%p\n", sizeof(c),c.c1,c.i2,c.s3[1],c.i4,&c);
 return c.i2*c.i2;
 }
 //=
