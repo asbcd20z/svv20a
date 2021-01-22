@@ -35,7 +35,8 @@ get_cur_info();
 #traceback.extract_stack(limit=2)[0] #python获取当前行号,函数名称,文件名https://blog.csdn.net/iteye_11349/article/details/82679062
 #
 #import inspect; # to getLine as __LINE__ in c
-def lg():import inspect;return inspect.stack()[1][1:4]
+def lg():import inspect;return '--'+str(inspect.stack()[1][1:4])
+#def lg():import sys;f=sys._getframe().f_back;return  ('---',f.f_code.co_filename, f.f_lineno, f.f_code.co_name)
 #
 import logging #python日志打印模块,输出时间/文件名/行号信息等https://blog.csdn.net/ternence_hsu/article/details/104572415/
 #logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s', datefmt='%d-%m-%Y:%H:%M:%S')
