@@ -24,7 +24,7 @@ import ctypes
 import ctypes as tt ## Structure Union Array
 import pprint as pp ## pprint.pprint
 
-import sys;
+import sys; sf=sys._getframe
 sf=sys._getframe # sys._getframe().f_lineno, eval('sys._getframe().f_lineno')
 def flno():return eval('sys._getframe().f_code.co_filename')+str(eval('sys._getframe().f_lineno'))
 #logging-and-file-line-function
@@ -132,7 +132,13 @@ ma=msgAA();
 mb=msgBB();
 ctypes.sizeof(ma),ctypes.sizeof(msgBB)
 print('==', msgBB._fields_, '\n', vars(msgBB), '\n', msgBB._f4, '\n', msgBB._f4.__class__, '--is a data-descriptor (auto?)') #help(msgBB._f4)
-
+##
+print('==', sf().f_lineno)
+i=ctypes.c_int(2);
+i.tt=22; (i.value,i.__dict__); # all _CData is inherited from object class, also c_int,so it's a general instance of object
+class myEE(ctypes.c_int): pass  #eg,for Enum
+e=myEE(3)
+e.tt=33; (e.value,e.__dict__, vars(e))
 
 
 if 0:
