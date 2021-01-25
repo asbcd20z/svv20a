@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 ##-*- coding:utf-8 -*-
 #pyy -i
+#eg: pyy pdb2.py aa  # kill to signal by self
 
 '''
 关于python：使用pdb附加进程  https://www.codenong.com/25308847/
@@ -30,4 +31,8 @@ def loop():
 if __name__ == '__main__':
     signal.signal(signal.SIGUSR1, handle_pdb)
     print(os.getpid())
+    print((len(sys.argv),sys.argv))
+    if (len(sys.argv)>1):
+    	os.kill(os.getpid(), signal.SIGUSR1)
+    	print(os.getpid(),'killed')
     loop()
