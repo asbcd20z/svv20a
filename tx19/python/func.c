@@ -5,6 +5,7 @@ gcc -gstabs+ -fPIC -shared func.c -o libfunc.so ||exit -1;
  gcc -fPIC  $0 -o $0.ell -rdynamic ||exit -1
 #gcc -fPIC  $0 -o libfunc.so  -rdynamic ||exit -1  #cygfault, and linux fails with 'cannot dynamically load executable'
 #ls
+nm *func* -A|grep main
 #nm -D //objdump  -T libfunc.so |grep text
 #objdump -Gg
 exit 0;
@@ -42,4 +43,9 @@ struct mycc func2(int a)
 }
 
 
-int main(int ac, char* av[]){printf("hi..\n:");}
+__attribute__((weak)) 
+int mainw(int x_){printf("mainw\n");}
+//int mainw2(int x) __attribute__((weakref("mainw")))
+
+//__attribute__((weak))  //linux ok, but cywin fails when ld
+int main(int ac, char* av[]){printf("hi..\n"); mainw(1);}
