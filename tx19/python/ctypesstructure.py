@@ -26,6 +26,7 @@ import pprint as pp ## pprint.pprint
 
 import sys; sf=sys._getframe
 sf=sys._getframe # sys._getframe().f_lineno, eval('sys._getframe().f_lineno')
+print(sf().f_lineno)
 def flno():return eval('sys._getframe().f_code.co_filename')+str(eval('sys._getframe().f_lineno'))
 #logging-and-file-line-function
 print("here is :",__file__,str(sys._getframe().f_lineno)) #https://www.cnblogs.com/ld1226/p/5639976.html
@@ -36,6 +37,7 @@ get_cur_info();
 #
 #import inspect; # to getLine as __LINE__ in c
 def lg():import inspect;return '--'+str(inspect.stack()[1][1:4])
+print(lg())
 #def lg():import sys;f=sys._getframe().f_back;return  ('---',f.f_code.co_filename, f.f_lineno, f.f_code.co_name)
 #
 import logging #python日志打印模块,输出时间/文件名/行号信息等https://blog.csdn.net/ternence_hsu/article/details/104572415/
