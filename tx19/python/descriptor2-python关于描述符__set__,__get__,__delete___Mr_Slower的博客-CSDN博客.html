@@ -1,0 +1,1734 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/Mr_Slower/article/details/83590823"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>python关于描述符__set__ ,__get__ , __delete___Mr_Slower的博客-CSDN博客</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="python关于描述符__set__ ,__get__ , __delete__">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"python关于描述符__set__ ,__get__ , __delete__"}'>
+    <meta name="description" content="1.描述符The following methods only apply when an instance of the class containing the method (a so-called descriptor class) appears in an owner class (the descriptor must be in either the owner’s class...">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-9ea6f77580.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/Mr_Slower/article/details/83590823","appid":"1638831770136827","pubDate":"2018-10-31T22:33:28","title":"python关于描述符__set__ ,__get__ , __delete___Mr_Slower的博客-CSDN博客","upDate":"2018-10-31T22:33:28"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin3-template/skin3-template-45808e735f.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "Mr_Slower";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/Mr_Slower";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/Mr_Slower/article/details/83590823";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/0/F/8/3_mr_slower";
+        var articleTitle = "python关于描述符__set__ ,__get__ , __delete__";
+        var articleDesc = "1.描述符The following methods only apply when an instance of the class containing the method (a so-called descriptor class) appears in an owner class (the descriptor must be in either the owner’s class...";
+        var articleTitles = "python关于描述符__set__ ,__get__ , __delete___Mr_Slower的博客-CSDN博客";
+        var nickName = "Mr_Slower";
+        var articleDetailUrl = "https://blog.csdn.net/Mr_Slower/article/details/83590823";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = {"landingWord":[],"queryWord":"","tag":["python","面向对象","描述符"],"title":"python关于描述符__set__ ,__get__ , __delete__"};
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+    function getQueryString(name) {   
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象  
+      var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+      if( r != null ) return decodeURIComponent( r[2] ); return '';   
+    }
+    function stripscript(s){ 
+      var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？%]") 
+      var rs = ""; 
+      for (var i = 0; i < s.length; i++) { 
+        rs = rs+s.substr(i, 1).replace(pattern, ''); 
+      } 
+      return rs; 
+    }
+    var blogHotWords = stripscript(getQueryString('utm_term')).length > 1 ? stripscript(getQueryString('utm_term')) : ''
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">python关于描述符__set__ ,__get__ , __delete__</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/Mr_Slower" target="_blank" rel="noopener">Mr_Slower</a>
+                    <span class="time">2018-10-31 22:33:28</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">2333</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            5
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/mr_slower/category_8236847.html" target="_blank" rel="noopener">python知识块</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"python","ab":"new"}' class="tag-link" href="https://www.csdn.net/tags/MtjaQg4sNDk0LWJsb2cO0O0O.html" target="_blank" rel="noopener">python</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"面向对象","ab":"new"}' class="tag-link" href="https://www.csdn.net/tags/MtTaEg0sMDE2NTItYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">面向对象</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"描述符","ab":"new"}' class="tag-link" href="https://so.csdn.net/so/search/s.do?q=描述符&amp;t=blog&amp;o=vip&amp;s=&amp;l=&amp;f=&amp;viparticle=" target="_blank" rel="noopener">描述符</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2018-10-31 22:33:28</span><span>首次发布:2018-10-31 22:33:28</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/Mr_Slower/article/details/83590823" target="_blank">https://blog.csdn.net/Mr_Slower/article/details/83590823</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="markdown_views prism-atom-one-light">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+					<p>//setTimeout,  https://blog.csdn.net/Mr_Slower/article/details/83590823</p>
+                    <h5><a id="1_0"></a>1.描述符</h5> 
+<blockquote> 
+ <p>The following methods only apply when an instance of the class containing the method (a so-called descriptor class) appears in an owner class (the descriptor must be in either the owner’s class dictionary or in the class dictionary for one of its parents). In the examples below, “the attribute” refers to the attribute whose name is the key of the property in the owner class’ __ dict__.<br /> 下列方法只有在包含这些方法的类的实例出现在&#34;所有者&#34;类中(所有者的属性字典或者其父类的属性字典中)时才适用.</p> 
+</blockquote> 
+<blockquote> 
+ <p>1)object.__ get__(self, instance, owner)<br /> Called to get the attribute of the owner class (class attribute access) or of an instance of that class (instance attribute access). owner is always the owner class, while instance is the instance that the attribute was accessed through, or None when the attribute is accessed through the owner. This method should return the (computed) attribute value or raise an AttributeError exception.<br /> 当需要访问所有者类的属性或所有者类的实例的属性时被调用.其中参数owner就是所有者类, instance是要访问属性的实例,当所以者类访问属性时,该参数为None. 该方法应该返回属性值或抛出错误</p> 
+</blockquote> 
+<blockquote> 
+ <p>2)object.__ set__(self, instance, value)<br /> Called to set the attribute on an instance <em>instance</em> of the owner class to a new value, <em>value</em>.<br /> 调用以将所有者类的实例instance设置为一个新值value.</p> 
+</blockquote> 
+<blockquote> 
+ <p>3)object.__ delete__(self, instance)<br /> Called to delete the attribute on an instance instance of the owner class.<br /> 调用以删除所有者类的实例的属性</p> 
+</blockquote> 
+<blockquote> 
+ <p>4)object.__ set_name__(self, owner, name)<br /> Called at the time the owning class owner is created. The descriptor has been assigned to name.<br /> 当所有者类被创建时调用,描述符被赋值给name</p> 
+</blockquote> 
+<p>1)描述符本质就是一个新式类, 在这个类中, 至少实现了 __ set__, __ get__,<br /> __ delete__ 三种方法中的一种, 也被称为描述符协议.<br /> __ get__ : 调用相关属性时触发;<br /> __ set__ : 修改相关属性时触发;<br /> __ delete__ : 删除相关属性时触发;<br /> 2)至少同时具有前两种方法的描述符称为数据描述符,<br /> 不具有__ set__ 方法的称为非数据描述符.<br /> 3)属性调用优先级: 类属性&gt;数据描述符&gt;实例属性&gt;非数据描述符<br /> 4)描述符必须定义为类属性,不可放到函数中.<br /> 示例:</p> 
+<pre><code class="prism language-python"><span class="token keyword">class</span> <span class="token class-name">Test</span><span class="token punctuation">:</span>
+    name <span class="token operator">&#61;</span> <span class="token string">&#39;Testhahahaha&#39;</span>
+    
+       <span class="token comment">#self:描述符对象n, instance:实例t1, owner:t1所属的类Test1</span>
+    <span class="token keyword">def</span> <span class="token function">__get__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> owner<span class="token punctuation">)</span><span class="token punctuation">:</span>  
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;&#61;&#61;&#61;&#61;&gt;get&#39;</span><span class="token punctuation">)</span>
+        <span class="token comment">#print(self, instance, owner, sep&#61;&#39;\n&#39;)</span>
+        <span class="token keyword">return</span> self
+
+    <span class="token keyword">def</span> <span class="token function">__set__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token comment">#value:值3</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;&#61;&#61;&#61;&#61;&gt;set&#39;</span><span class="token punctuation">)</span>
+        <span class="token comment">#print(self.name, instance, value, sep&#61;&#39;\n&#39;)</span>
+        instance<span class="token punctuation">.</span>__dict__<span class="token punctuation">[</span><span class="token string">&#39;n&#39;</span><span class="token punctuation">]</span> <span class="token operator">&#61;</span> value
+
+    <span class="token keyword">def</span> <span class="token function">__delete__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;&#61;&#61;&#61;&#61;&gt;delete&#39;</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">)</span>
+
+
+<span class="token keyword">class</span> <span class="token class-name">Test1</span><span class="token punctuation">:</span>
+    n <span class="token operator">&#61;</span> Test<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>name <span class="token operator">&#61;</span> name
+
+
+<span class="token comment">#Test1.n &#61; &#39;abc&#39;   # 类属性的设置优先级高于描述符,不触发__set__</span>
+Test1<span class="token punctuation">.</span>n             <span class="token comment"># 类调用属性会触发__get__</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;&#61;&#61;&#61;&#61;&#61;&gt;hahaha&#39;</span><span class="token punctuation">)</span>
+t1 <span class="token operator">&#61;</span> Test1<span class="token punctuation">(</span><span class="token string">&#39;sabi&#39;</span><span class="token punctuation">)</span>  <span class="token comment"># 不涉及属性n时不会触发描述符</span>
+t1<span class="token punctuation">.</span>n <span class="token operator">&#61;</span> <span class="token number">3</span>            <span class="token comment"># 触发__set__, 增加属性n,但类属性不变</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t1<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t1<span class="token punctuation">.</span>n<span class="token punctuation">)</span>         <span class="token comment"># 触发__get__</span>
+<span class="token keyword">del</span> t1<span class="token punctuation">.</span>n            <span class="token comment"># 触发__delete__</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;&#61;&#61;&#61;&#61;&#61;分隔&#39;</span><span class="token punctuation">)</span>
+<span class="token keyword">del</span> Test1<span class="token punctuation">.</span>n         <span class="token comment"># 类删除属性也不会触发__delete__</span>
+
+<span class="token comment">#result</span>
+<span class="token operator">&#61;&#61;</span><span class="token operator">&#61;&#61;</span><span class="token operator">&gt;</span>get
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Test <span class="token builtin">object</span> at <span class="token number">0x000001908F997470</span><span class="token operator">&gt;</span>
+<span class="token boolean">None</span>
+<span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token string">&#39;__main__.Test1&#39;</span><span class="token operator">&gt;</span>
+<span class="token operator">&#61;&#61;</span><span class="token operator">&#61;&#61;</span><span class="token operator">&#61;</span><span class="token operator">&gt;</span>hahaha
+<span class="token operator">&#61;&#61;</span><span class="token operator">&#61;&#61;</span><span class="token operator">&gt;</span><span class="token builtin">set</span>
+<span class="token punctuation">{<!-- --></span><span class="token string">&#39;name&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;sabi&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;n&#39;</span><span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span>
+<span class="token operator">&#61;&#61;</span><span class="token operator">&#61;&#61;</span><span class="token operator">&gt;</span>get
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Test <span class="token builtin">object</span> at <span class="token number">0x000001908F997470</span><span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Test1 <span class="token builtin">object</span> at <span class="token number">0x000001908F997BA8</span><span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token string">&#39;__main__.Test1&#39;</span><span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Test <span class="token builtin">object</span> at <span class="token number">0x000001908F997470</span><span class="token operator">&gt;</span>
+<span class="token operator">&#61;&#61;</span><span class="token operator">&#61;&#61;</span><span class="token operator">&gt;</span>delete
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Test <span class="token builtin">object</span> at <span class="token number">0x000001908F997470</span><span class="token operator">&gt;</span> <span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Test1 <span class="token builtin">object</span> at <span class="token number">0x000001908F997BA8</span><span class="token operator">&gt;</span>
+<span class="token operator">&#61;&#61;</span><span class="token operator">&#61;&#61;</span><span class="token operator">&#61;</span>分隔
+</code></pre> 
+<p>示例2: 非数据描述符,注意设置实例属性时描述符中也不能有delete方法,否则会报错</p> 
+<pre><code class="prism language-python"><span class="token keyword">class</span> <span class="token class-name">Test</span><span class="token punctuation">:</span>
+    name <span class="token operator">&#61;</span> <span class="token string">&#39;Testhahahaha&#39;</span>
+
+    <span class="token keyword">def</span> <span class="token function">__get__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> owner<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;&#61;&#61;&#61;&#61;&gt;get&#39;</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> owner<span class="token punctuation">,</span> sep<span class="token operator">&#61;</span><span class="token string">&#39;\n&#39;</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> self
+        
+    <span class="token comment"># def __delete__(self, instance):</span>
+    <span class="token comment">#     print(&#39;&#61;&#61;&#61;&#61;&gt;delete&#39;)</span>
+    <span class="token comment">#     print(self, instance)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Test1</span><span class="token punctuation">:</span>
+    n <span class="token operator">&#61;</span> Test<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>name <span class="token operator">&#61;</span> name
+
+t1 <span class="token operator">&#61;</span> Test1<span class="token punctuation">(</span><span class="token string">&#39;sabi&#39;</span><span class="token punctuation">)</span>
+t1<span class="token punctuation">.</span>n <span class="token operator">&#61;</span> <span class="token string">&#39;niubi&#39;</span>        <span class="token comment">#没有set, 所以不会触发        </span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t1<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t1<span class="token punctuation">.</span>n<span class="token punctuation">)</span>          <span class="token comment">#已经和描述符无关, 所以不会触发get        </span>
+<span class="token keyword">del</span> t1<span class="token punctuation">.</span>n          
+<span class="token keyword">print</span><span class="token punctuation">(</span>t1<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
+
+<span class="token comment">#result</span>
+<span class="token punctuation">{<!-- --></span><span class="token string">&#39;name&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;sabi&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;n&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;niubi&#39;</span><span class="token punctuation">}</span>
+niubi
+<span class="token punctuation">{<!-- --></span><span class="token string">&#39;name&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;sabi&#39;</span><span class="token punctuation">}</span>
+</code></pre> 
+<p>示例3: __ set_name__</p> 
+<pre><code class="prism language-python"><span class="token keyword">class</span> <span class="token class-name">Test</span><span class="token punctuation">:</span>
+    name <span class="token operator">&#61;</span> <span class="token string">&#39;Testhahahaha&#39;</span>
+
+    <span class="token keyword">def</span> <span class="token function">__get__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> owner<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;&#61;&#61;&#61;&#61;&gt;get&#39;</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> owner<span class="token punctuation">,</span> sep<span class="token operator">&#61;</span><span class="token string">&#39;\n&#39;</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> self
+
+    <span class="token keyword">def</span> <span class="token function">__set_name__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> owner<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;setname&#39;</span><span class="token punctuation">,</span> owner<span class="token punctuation">,</span> name<span class="token punctuation">,</span> sep<span class="token operator">&#61;</span><span class="token string">&#39;\n&#39;</span><span class="token punctuation">)</span>     
+
+<span class="token keyword">class</span> <span class="token class-name">Test1</span><span class="token punctuation">:</span>
+    n <span class="token operator">&#61;</span> Test<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>name <span class="token operator">&#61;</span> name 
+
+<span class="token comment">#result</span>
+setname
+<span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token string">&#39;__main__.Test1&#39;</span><span class="token operator">&gt;</span>
+n
+</code></pre> 
+<h5><a id="2_145"></a>2.描述符的应用</h5> 
+<p>1)示例4: 输入类型限制,描述输入参数的类型</p> 
+<pre><code class="prism language-python"><span class="token keyword">class</span> <span class="token class-name">Test1</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span><span class="token builtin">type</span> <span class="token operator">&#61;</span> <span class="token builtin">type</span>
+        self<span class="token punctuation">.</span>key <span class="token operator">&#61;</span> key
+
+    <span class="token keyword">def</span> <span class="token function">__get__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> owner<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;get running&#39;</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> instance<span class="token punctuation">.</span>__dict__<span class="token punctuation">[</span>self<span class="token punctuation">.</span>key<span class="token punctuation">]</span>  <span class="token comment"># 操作属性字典</span>
+
+    <span class="token keyword">def</span> <span class="token function">__set__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;set running&#39;</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token operator">not</span> <span class="token builtin">isinstance</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> self<span class="token punctuation">.</span><span class="token builtin">type</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># 同时限制多种类型</span>
+            <span class="token keyword">raise</span> TypeError<span class="token punctuation">(</span><span class="token string">&#39;fuck wrong&#39;</span><span class="token punctuation">)</span>
+        instance<span class="token punctuation">.</span>__dict__<span class="token punctuation">[</span>self<span class="token punctuation">.</span>key<span class="token punctuation">]</span> <span class="token operator">&#61;</span> value
+
+    <span class="token keyword">def</span> <span class="token function">__delete__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&#39;delete running&#39;</span><span class="token punctuation">)</span>
+        instance<span class="token punctuation">.</span>__dict__<span class="token punctuation">.</span>pop<span class="token punctuation">(</span>self<span class="token punctuation">.</span>key<span class="token punctuation">)</span>
+
+
+<span class="token keyword">class</span> <span class="token class-name">Owner</span><span class="token punctuation">:</span>
+
+    name <span class="token operator">&#61;</span> Test1<span class="token punctuation">(</span><span class="token string">&#39;name&#39;</span><span class="token punctuation">,</span> <span class="token builtin">str</span><span class="token punctuation">)</span>
+    age <span class="token operator">&#61;</span> Test1<span class="token punctuation">(</span><span class="token string">&#39;age&#39;</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">)</span>
+    weight <span class="token operator">&#61;</span> Test1<span class="token punctuation">(</span><span class="token string">&#39;weight&#39;</span><span class="token punctuation">,</span> <span class="token builtin">float</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> weight<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>name <span class="token operator">&#61;</span> name
+        self<span class="token punctuation">.</span>age <span class="token operator">&#61;</span> age
+        self<span class="token punctuation">.</span>weight <span class="token operator">&#61;</span> weight
+
+
+t <span class="token operator">&#61;</span> Owner<span class="token punctuation">(</span><span class="token string">&#39;sabi&#39;</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">123.5</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>weight<span class="token punctuation">)</span>
+<span class="token keyword">del</span> t<span class="token punctuation">.</span>age
+<span class="token keyword">print</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
+
+<span class="token comment">#result</span>
+<span class="token builtin">set</span> running
+<span class="token builtin">set</span> running
+<span class="token builtin">set</span> running
+<span class="token punctuation">{<!-- --></span><span class="token string">&#39;name&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;sabi&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;age&#39;</span><span class="token punctuation">:</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token string">&#39;weight&#39;</span><span class="token punctuation">:</span> <span class="token number">123.5</span><span class="token punctuation">}</span>
+get running
+<span class="token number">123.5</span>
+delete running
+<span class="token punctuation">{<!-- --></span><span class="token string">&#39;name&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;sabi&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;weight&#39;</span><span class="token punctuation">:</span> <span class="token number">123.5</span><span class="token punctuation">}</span>
+</code></pre> 
+<p>2)示例5: 利用描述符自己定制property</p> 
+<pre><code class="prism language-python"><span class="token keyword">class</span> <span class="token class-name">HahaProperty</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> func<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>func <span class="token operator">&#61;</span> func
+
+    <span class="token keyword">def</span> <span class="token function">__get__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> instance<span class="token punctuation">,</span> owner<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> instance <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>   <span class="token comment"># 当类调用时</span>
+            <span class="token keyword">return</span> self
+        res <span class="token operator">&#61;</span> self<span class="token punctuation">.</span>func<span class="token punctuation">(</span>instance<span class="token punctuation">)</span>
+        instance<span class="token punctuation">.</span>__dict__<span class="token punctuation">[</span>self<span class="token punctuation">.</span>func<span class="token punctuation">.</span>__name__<span class="token punctuation">]</span> <span class="token operator">&#61;</span> res  <span class="token comment"># 加入属性字典,避免重复运算</span>
+        <span class="token keyword">return</span> res
+
+
+<span class="token keyword">class</span> <span class="token class-name">Test</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>a <span class="token operator">&#61;</span> a
+        self<span class="token punctuation">.</span>b <span class="token operator">&#61;</span> b
+
+    &#64;HahaProperty
+    <span class="token keyword">def</span> <span class="token function">cal</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>a <span class="token operator">&#43;</span> self<span class="token punctuation">.</span>b
+
+    &#64;<span class="token builtin">property</span>
+    <span class="token keyword">def</span> <span class="token function">cal1</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>a <span class="token operator">&#43;</span> self<span class="token punctuation">.</span>b
+
+
+t <span class="token operator">&#61;</span> Test<span class="token punctuation">(</span><span class="token string">&#39;love&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;you&#39;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>cal<span class="token punctuation">,</span>t<span class="token punctuation">.</span>cal1<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>Test<span class="token punctuation">.</span>cal<span class="token punctuation">,</span> Test<span class="token punctuation">.</span>cal1<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>Test<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>__dict__<span class="token punctuation">)</span>
+
+<span class="token comment">#result</span>
+loveyou loveyou
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>HahaProperty <span class="token builtin">object</span> at <span class="token number">0x000001C646617CF8</span><span class="token operator">&gt;</span> <span class="token operator">&lt;</span><span class="token builtin">property</span> <span class="token builtin">object</span> at <span class="token number">0x000001C646631C28</span><span class="token operator">&gt;</span>
+<span class="token punctuation">{<!-- --></span><span class="token string">&#39;__module__&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;__main__&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;__init__&#39;</span><span class="token punctuation">:</span> <span class="token operator">&lt;</span>function Test<span class="token punctuation">.</span>__init__ at <span class="token number">0x000001C646618EA0</span><span class="token operator">&gt;</span><span class="token punctuation">,</span> <span class="token string">&#39;cal&#39;</span><span class="token punctuation">:</span> <span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>HahaProperty <span class="token builtin">object</span> at <span class="token number">0x000001C646617CF8</span><span class="token operator">&gt;</span><span class="token punctuation">,</span> <span class="token string">&#39;cal1&#39;</span><span class="token punctuation">:</span> <span class="token operator">&lt;</span><span class="token builtin">property</span> <span class="token builtin">object</span> at <span class="token number">0x000001C646631C28</span><span class="token operator">&gt;</span><span class="token punctuation">,</span> <span class="token string">&#39;__dict__&#39;</span><span class="token punctuation">:</span> <span class="token operator">&lt;</span>attribute <span class="token string">&#39;__dict__&#39;</span> of <span class="token string">&#39;Test&#39;</span> objects<span class="token operator">&gt;</span><span class="token punctuation">,</span> <span class="token string">&#39;__weakref__&#39;</span><span class="token punctuation">:</span> <span class="token operator">&lt;</span>attribute <span class="token string">&#39;__weakref__&#39;</span> of <span class="token string">&#39;Test&#39;</span> objects<span class="token operator">&gt;</span><span class="token punctuation">,</span> <span class="token string">&#39;__doc__&#39;</span><span class="token punctuation">:</span> <span class="token boolean">None</span><span class="token punctuation">}</span>
+<span class="token punctuation">{<!-- --></span><span class="token string">&#39;a&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;love&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;b&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;you&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;cal&#39;</span><span class="token punctuation">:</span> <span class="token string">&#39;loveyou&#39;</span><span class="token punctuation">}</span>
+</code></pre> 
+<p>3.)</p>
+                </div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-d7a94ec6ab.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-ba784fbaf8.css" rel="stylesheet">
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    // replaceArticleContentWords(blogSensitiveWords,'sensitiveWords')
+    // 高亮词
+    // replaceArticleContentWords(blogHotWords,'hotWords')
+    // 公共方法
+    function replaceArticleContentWords(words,type){
+      if(words){   
+        var getContentViews = document.getElementById("content_views");
+        var getContentTitle = document.getElementById("articleContentId");
+        var contentViewsInnerHTML = getContentViews.innerHTML;
+        var contentTitleInnerHTML = getContentTitle.innerHTML;
+        var keyWordsJsonArr = [];
+        var keyWordsArr = words.split(',');
+        function repeatTimes(str, num){
+            return num > 1 ? str += repeatTimes(str, --num): str;
+        }
+        for(var i = 0; i < keyWordsArr.length; i++){
+            var keyWordsJson = {} ;
+            keyWordsJson.key = keyWordsArr[i];
+            if(type == 'hotWords'){
+              keyWordsJson.value = '<span class="hot-words-highlight">'+keyWordsArr[i]+'</span>'
+            }else if(type == 'sensitiveWords'){
+              keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+            }else {
+              keyWordsJson.value = keyWordsArr[i]
+            }
+            keyWordsJsonArr.push(keyWordsJson);
+        }
+        var reg;
+        for(var i = 0; i < keyWordsJsonArr.length; i++){
+            var item = keyWordsJsonArr[i]; 
+            if(type == 'hotWords'){
+              reg = new RegExp(item.key,"ig");
+            }
+            if(type == 'sensitiveWords'){
+              reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");  
+            }
+            contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+            contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+        }
+        getContentViews.innerHTML=contentViewsInnerHTML;
+        getContentTitle.innerHTML=contentTitleInnerHTML;
+      }
+    }
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        5
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://blog.csdn.net/Mr_Slower" data-report-click='{"mod":"popu_379","dest":"https://blog.csdn.net/Mr_Slower","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/0/F/8/3_mr_slower" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">Mr_Slower</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+         <div class="hot-word-tip-box">
+          <span class="hot-word-text">已标记关键词</span>
+          <span class="hot-word-count"></span> 
+          <span class="hot-word-bar"></span>
+          <span class="hot-word-clear">清除标记</span>
+        </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.3/collection-box.js"></script>
+                <div id="dmp_ad_58" style="width:100%;overflow-x:hidden"><div id="kp_box_58" data-pid="58"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-gp-e+1c-4d+81"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="5254302274"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=58&a=3503&c=0&k=&spm=1001.2101.3001.5002&d=1&t=3&u=5a69d253d94e4c8e9f8d62b1724bfd8d" style="display: block;width: 0px;height: 0px;"></div></div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/yusuiyu/article/details/87971091"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/yusuiyu/article/details/87971091"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/yusuiyu/article/details/87971091" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/yusuiyu/article/details/87971091"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+					<em>Python</em> 魔法方法（五） 从<em>__get__</em>，<em>__set__</em>， <em>__delete__</em>再探属性访问顺序
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/yusuiyu" target="_blank"><span class="blog-title">yusuiyu的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">02-28</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					615
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/yusuiyu/article/details/87971091" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/yusuiyu/article/details/87971091"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">这里需要先说一下<em>描述符</em>的概念。
+
+<em>描述符</em>:<em>描述符</em>本质就是一个新式类,在这个新式类中,至少实现了<em>__get__</em>(),<em>__set__</em>(),<em>__delete__</em>()中的一个，这也被称为<em>描述符</em>协议。
+
+<em>描述符</em>分数据<em>描述符</em>，只有<em>__get__</em>的<em>描述符</em>是非数据<em>描述符</em>，有<em>__get__</em>和<em>__set__</em>的<em>描述符</em>是数据<em>描述符</em>。
+
+
+
+<em>__get__</em>(self, instance, owner)&mdash;获取属性时调用，返...</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+      <textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重" maxlength="1000"></textarea>
+			<div class="comment-emoticon"><img class="comment-emoticon-img" data-url="https://csdnimg.cn/release/blogv2/dist/pc/img/" src="https://csdnimg.cn/release/blogv2/dist/pc/img/emoticon.png" alt="表情包"></div> 
+      <span class="comment-emoticon-tip">插入表情</span>
+      <div class="comment-emoticon-box">
+        <div class="comment-emoticon-img-box">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:001.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/001.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:002.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/002.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:003.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/003.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:004.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/004.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:005.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/005.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:006.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/006.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:007.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/007.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:008.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/008.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:009.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/009.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:010.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/010.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:011.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/011.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:012.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/012.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:013.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/013.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:014.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/014.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:015.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/015.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:016.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/016.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:017.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/017.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:018.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/018.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:019.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/019.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:020.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/020.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:021.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/021.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:022.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/022.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:023.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/023.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:024.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/024.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:025.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/025.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:026.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/026.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:027.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/027.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:028.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/028.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:029.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/029.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:030.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/030.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:031.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/031.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:032.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/032.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:033.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/033.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:034.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/034.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:035.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/035.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:036.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/036.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:037.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/037.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:038.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/038.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:039.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/039.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:040.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/040.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:041.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/041.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:042.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/042.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:043.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/043.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:044.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/044.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:045.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/045.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:046.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/046.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:047.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/047.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:048.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/048.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:049.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/049.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:050.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/050.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:051.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/051.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:052.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/052.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:053.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/053.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:054.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/054.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:055.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/055.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:056.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/056.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:057.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/057.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:058.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/058.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:059.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/059.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:060.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/060.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:061.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/061.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:062.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/062.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:063.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/063.png">
+            <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:064.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/064.png">
+        </div>
+      </div>
+      <div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="83590823">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/binghui1990/article/details/9104725"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/binghui1990/article/details/9104725"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/binghui1990/article/details/9104725" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/binghui1990/article/details/9104725"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+					PHP 魔术方法之<em>__set__</em>get__unset__isset
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/binghui1990" target="_blank"><span class="blog-title">邴辉</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-16</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					9567
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/binghui1990/article/details/9104725" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/binghui1990/article/details/9104725"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">&lt;?php
+/***
+魔术方法: 
+是指某些情况下,会自动调用的方法,称为魔术方法 
+PHP面向对象中,提供了这几个魔术方法, 
+他们的特点 都是以双下划线__开头的 
+__construct(), __destruct(), __call(), __callStatic(), __get(), __set(), __isset(), __unset(), __sleep(), __wakeup(</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_39633165/article/details/110905607"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/weixin_39633165/article/details/110905607"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_39633165/article/details/110905607" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/weixin_39633165/article/details/110905607"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+					<em>python</em>3 get函数_<em>python</em>3面对像进阶--<em>描述符</em>(<em>__get__</em>,<em>__set__</em>,<em>__delete__</em>)
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_39633165" target="_blank"><span class="blog-title">weixin_39633165的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-08</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					10
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_39633165/article/details/110905607" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/weixin_39633165/article/details/110905607"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>描述符</em>只实用于大型框架1、<em>描述符</em>是什么?<em>描述符</em>本质就是一个新式类,在这个新式类中,至少实现了<em>__get__</em>(),<em>__set__</em>(),<em>__delete__</em>()中的一个,这也被称为<em>描述符</em>协议<em>__get__</em>():调用一个属性时,触发<em>__set__</em>():为一个属性赋值时,触发<em>__delete__</em>():采用del删除属性时,触发<em>描述符</em>代码示例:classFoo:#在<em>python</em>3中Foo是新式类,它实现...</div>
+			</a>
+		</div>
+	</div>
+</div>
+		<div id="recommend-item-box-tow" class="recommend-item-box type_blog clearfix">
+			
+		</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/CSDNedu/article/details/112860629"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.484779.control\"}","index":"5","strategy":"11_484779_RCMD","dest":"https://blog.csdn.net/CSDNedu/article/details/112860629"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/CSDNedu/article/details/112860629" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.484779.control\"}","index":"5","strategy":"11_484779_RCMD","dest":"https://blog.csdn.net/CSDNedu/article/details/112860629"}'  data-report-query='utm_medium=distribute.pc_relevant.484779.control&depth_1-utm_source=distribute.pc_relevant.484779.control'>
+					国民度No.1，<em>Python</em>到底做了什么？
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/CSDNedu" target="_blank"><span class="blog-title">CSDN学院</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-20</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/CSDNedu/article/details/112860629" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.484779.control\"}","index":"5","strategy":"11_484779_RCMD","dest":"https://blog.csdn.net/CSDNedu/article/details/112860629"}'  data-report-query='utm_medium=distribute.pc_relevant.484779.control&depth_1-utm_source=distribute.pc_relevant.484779.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">毫无疑问，<em>Python</em> 是当下最火的编程语言之一。可以说 <em>Python</em> 的崛起，将编程提高了一个层次，它不再只是程序员专用，各个岗位都在学习 <em>Python</em>，导致普及度和国民度瞬间上升，<em>Python</em> 对整个行业来说都是极其有利的。
+
+正如 TIOBE 官方评价：<em>Python</em> 无处不在，其实自 2018 年开始，各行各业便开始布局 <em>Python</em>。
+
+在教育界，
+
+1、自 2018 年 3 月起，在计算机二级考试加入了&ldquo;<em>Python</em> 语言程序设计&rdquo;科目；
+
+2、2018 年，浙江省信息技术教材宣布弃用 VB 语言</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lilong117194/article/details/80090951"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lilong117194/article/details/80090951"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/lilong117194/article/details/80090951" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lilong117194/article/details/80090951"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control'>
+					<em>python</em>中的self&amp;<em>描述符</em><em>__set__</em>和<em>__get__</em>&amp;简单总结
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/lilong117194" target="_blank"><span class="blog-title">lilong117194的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">04-27</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					6679
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/lilong117194/article/details/80090951" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lilong117194/article/details/80090951"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">1. <em>python</em>中的self用法总结
+
+
+
+class Student(object):
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+
+
+__init__方法的第一参数永远是self，表示创建的类实例本身，因此，在__init__方法内部，就可以把各种属性绑定到s...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u013550998/article/details/81388336"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u013550998/article/details/81388336"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/u013550998/article/details/81388336" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u013550998/article/details/81388336"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control'>
+					<em>python</em>中的__init__、__call__和<em>__delete__</em>特殊函数的浅学
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/u013550998" target="_blank"><span class="blog-title">倚榭听雨</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-03</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					567
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/u013550998/article/details/81388336" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u013550998/article/details/81388336"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">参考博客原址: 
+https://blog.csdn.net/u013550998/article/details/81387949 
+https://blog.csdn.net/yaokai_assultmaster/article/details/70256621
+
+在<em>Python</em>的class中有一些函数往往具有特殊的意义。init()和call()就是class很有用的两类特殊的函数。
+
+i...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/Windgs_YF/article/details/53409482"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/Windgs_YF/article/details/53409482"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/Windgs_YF/article/details/53409482" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/Windgs_YF/article/details/53409482"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control'>
+					<em>Python</em>语言学习讲解十六：<em>python</em>之<em>描述符</em><em>__set__</em>和<em>__get__</em> 等解释
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/Windgs_YF" target="_blank"><span class="blog-title">随意的风的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-30</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4142
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/Windgs_YF/article/details/53409482" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/Windgs_YF/article/details/53409482"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">注：每周一到周五都会进行相关<em>Python</em>基础知识更新，欢迎大家提宝贵的意见
+一、方法：
+	首先说下<em>python</em>中存在的几种方法：对象方法、静态方法、类方法等，归属权分别为obj、cls、cls
+	其实可以从他们的参数中就可以看的出来
+	对象方法参数中含有self,这个类似于C++中的this指针。
+	静态方法使用@staticmethod来修饰,可以通过类或类的实例对象来调用而已.</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_37482956/article/details/100060995"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-9.control\"}","index":"9","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/qq_37482956/article/details/100060995"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_37482956/article/details/100060995" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-9.control\"}","index":"9","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/qq_37482956/article/details/100060995"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-9.control'>
+					<em>python</em>之 <em>描述符</em>(<em>__get__</em>,<em>__set__</em>,<em>__delete__</em>)
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_37482956" target="_blank"><span class="blog-title">今晚打老虎的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-25</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1634
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_37482956/article/details/100060995" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-9.control\"}","index":"9","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/qq_37482956/article/details/100060995"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-9.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>描述符</em>(<em>__get__</em>,<em>__set__</em>,<em>__delete__</em>)
+
+1 <em>描述符</em>是什么:<em>描述符</em>本质就是一个新式类,在这个新式类中,至少实现了<em>__get__</em>(),<em>__set__</em>(),<em>__delete__</em>()中的一个,这也被称为<em>描述符</em>协议
+<em>__get__</em>():调用一个属性时,触发
+<em>__set__</em>():为一个属性赋值时,触发
+<em>__delete__</em>():采用del删除属性时,触发
+
+
+class Foo: #...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_34979346/article/details/83758447"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-10.control\"}","index":"10","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/qq_34979346/article/details/83758447"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_34979346/article/details/83758447" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-10.control\"}","index":"10","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/qq_34979346/article/details/83758447"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-10.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-10.control'>
+					<em>python</em>3:属性<em>描述符</em>(<em>__get__</em>,<em>__set__</em>,<em>__delete__</em>)
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_34979346" target="_blank"><span class="blog-title">上海 彭彭</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-05</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2492
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_34979346/article/details/83758447" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-10.control\"}","index":"10","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/qq_34979346/article/details/83758447"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-10.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-10.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">我先问大家个问题。
+如何对属性进行校验呢 比如有个要保证 age 属性 它只能是int类型且大小处于0到100之间？
+第一直觉就是用get 和set 方法如下：
+1.基本的调用 set 和get 方法
+class Student:
+    def __init__(self):
+        pass
+
+
+    def get(self):
+        return self.age
+  ...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/632875594/article/details/101730412"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-11.control\"}","index":"11","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/632875594/article/details/101730412"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/632875594/article/details/101730412" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-11.control\"}","index":"11","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/632875594/article/details/101730412"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-11.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-11.control'>
+					<em>Python</em>进阶-----<em>描述符</em>(<em>__get__</em>(),<em>__set__</em>(),<em>__delete__</em>())
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/632875594" target="_blank"><span class="blog-title"></span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-02</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					127
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/632875594/article/details/101730412" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-11.control\"}","index":"11","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/632875594/article/details/101730412"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-11.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-11.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">一、<em>描述符</em>是什么	　　<em>描述符</em>本质就是一个新式类,在这个新式类中,至少实现了<em>__get__</em>(),<em>__set__</em>(),<em>__delete__</em>()中的一个,这也被称为<em>描述符</em>协议	　　<em>__get__</em>():调用一个属性时,触发	　　<em>__set__</em>():为一个属性赋值时,触发	　　<em>__delete__</em>():采用del删除属性时,触发
+
+1 class Foo: #在<em>python</em>3中Foo是新式类,...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_30776545/article/details/99971377"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-12.control\"}","index":"12","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/weixin_30776545/article/details/99971377"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_30776545/article/details/99971377" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-12.control\"}","index":"12","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/weixin_30776545/article/details/99971377"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-12.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-12.control'>
+					<em>描述符</em> <em>__set__</em>(),<em>__get__</em>(),<em>__delete__</em>()
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_30776545" target="_blank"><span class="blog-title">weixin_30776545的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-06</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					18
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_30776545/article/details/99971377" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-12.control\"}","index":"12","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/weixin_30776545/article/details/99971377"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-12.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-12.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">1 class Str:
+ 2     def <em>__set__</em>(self, instance, value):
+ 3         print(&quot;Str_set&quot;,instance,value)
+ 4         print(id(instance)) #instance 是 Person() 的实例对象 
+ 5 
+ 6 
+ 7     def __get_...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/Mr_zhangbz/article/details/107711782"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control\"}","index":"13","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/Mr_zhangbz/article/details/107711782"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/Mr_zhangbz/article/details/107711782" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control\"}","index":"13","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/Mr_zhangbz/article/details/107711782"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control'>
+					<em>Python</em>高阶专题：属性<em>描述符</em><em>__get__</em>,<em>__set__</em>,<em>__delete__</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/Mr_zhangbz" target="_blank"><span class="blog-title">Mr_zhangbz的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-06</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					46
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/Mr_zhangbz/article/details/107711782" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control\"}","index":"13","strategy":"searchFromBaidu","dest":"https://blog.csdn.net/Mr_zhangbz/article/details/107711782"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">rtdgvh
+
+</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_discussion_topic clearfix" data-url="https://bbs.csdn.net/topics/392076783"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-14.control\"}","index":"14","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/392076783"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://bbs.csdn.net/topics/392076783" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-14.control\"}","index":"14","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/392076783"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-14.control&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-14.control'>
+					<em>python</em> 里的 <em>__get__</em>, <em>__set__</em> 的效果是什么？
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">01-13</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://bbs.csdn.net/topics/392076783" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-14.control\"}","index":"14","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/392076783"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-14.control&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-14.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"> class Test(object): def __init__(self): self.value = 0 t = Test() t.dd = 32 print t.dd print t.__di</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/zxyhhjs2017/article/details/80157930"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-15.control\"}","index":"15","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zxyhhjs2017/article/details/80157930"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/zxyhhjs2017/article/details/80157930" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-15.control\"}","index":"15","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zxyhhjs2017/article/details/80157930"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-15.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-15.control'>
+					<em>python</em>--之np.delete
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/zxyhhjs2017" target="_blank"><span class="blog-title">zxyhhjs2017的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-01</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/zxyhhjs2017/article/details/80157930" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-15.control\"}","index":"15","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zxyhhjs2017/article/details/80157930"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-15.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-15.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">1.numpy.delete(arr,obj,axis=None) 
+arr:输入向量 
+obj:表明哪一个子向量应该被移除。可以为整数或一个int型的向量 
+axis:表明删除哪个轴的子向量，若默认，则返回一个被拉平的向量
+a = np.array(np.arange(12).reshape(3,4))
+
+a
+Out[301]: 
+array([[ 0,  1,  2,  3],
+   </div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/chenjuan0530/article/details/78479851"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.control\"}","index":"16","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/chenjuan0530/article/details/78479851"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/chenjuan0530/article/details/78479851" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.control\"}","index":"16","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/chenjuan0530/article/details/78479851"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.control'>
+					<em>python</em>中的__del__方法
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/chenjuan0530" target="_blank"><span class="blog-title">陈娟的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-08</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2607
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/chenjuan0530/article/details/78479851" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.control\"}","index":"16","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/chenjuan0530/article/details/78479851"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-16.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">先来举个例子说明下del的用法：
+del  对象的引用class Dog:
+     pass
+
+dog1 = Dog()
+dog2 = dog1
+
+del dog1如图所示：
+
+删除对象的意思就是这个对象所对应的内存空间被释放了
+当dog1被删除了，dog2还在，引用计数减掉1而已，内存还不会被释放
+实例1：
+class Dog:
+def __del__(self):   #当内存不</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/wwh578867817/article/details/45398187"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-17.control\"}","index":"17","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/wwh578867817/article/details/45398187"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/wwh578867817/article/details/45398187" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-17.control\"}","index":"17","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/wwh578867817/article/details/45398187"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-17.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-17.control'>
+					<em>python</em> 的__del__删除器方法
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/wwh578867817" target="_blank"><span class="blog-title">IT小小鸟～～</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">04-30</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					5759
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/wwh578867817/article/details/45398187" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-17.control\"}","index":"17","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/wwh578867817/article/details/45398187"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-17.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-17.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">初学<em>python</em>，遇到了关于<em>python</em>关于内存的小问题，就简单的叙述下，如果有不同意见，欢迎一起讨论~
+
+
+
+
+1.引用计数
+<em>python</em>类似java是有垃圾回收机制的语言，所以我们不需要像c++一样通过析构函数来手动释放内存，
+但是<em>python</em>也同样提供了__del__释放方法。在一个对象的引用计数为0时，会被自动调用，那么先来说说
+引用计数吧。
+#!/usr/bin/env</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/Mr_Slower" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/Mr_Slower","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/0/F/8/3_mr_slower" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/Mr_Slower" class="" id="uid" title="Mr_Slower" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/Mr_Slower","ab":"new"}'>
+                    <span class="name " username="Mr_Slower">Mr_Slower</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄2年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://i.csdn.net/#/uc/profile?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="44">
+            <a href="https://blog.csdn.net/Mr_Slower" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">44</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="76797">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">7万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="145166">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">14万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="31223">  
+            <dt><span class="count">3万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="3级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog3.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="738">
+            <dt><span class="count">738</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="3">
+            <dt><span class="count" id="fan">3</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="9">
+            <dt><span class="count">9</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="5">
+            <dt><span class="count">5</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="27">
+            <dt><span class="count">27</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="持之以恒">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                    </div>
+                </div>
+                <div class="icon-badge" title="勤写标兵Lv2">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qixiebiaobing2@240.png" alt="勤写标兵Lv2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/Mr_Slower" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/Mr_Slower/article/details/83589286" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Mr_Slower/article/details/83589286","ab":"new"}'>
+				python关于类的call方法
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">4636</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Mr_Slower/article/details/84187878" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Mr_Slower/article/details/84187878","ab":"new"}'>
+				python关于select, selectors模块
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">3144</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Mr_Slower/article/details/84071408" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Mr_Slower/article/details/84071408","ab":"new"}'>
+				python关于multiprocessing(多进程)模块
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">3116</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Mr_Slower/article/details/83590823" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Mr_Slower/article/details/83590823","ab":"new"}'>
+				python关于描述符__set__ ,__get__ , __delete__
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">2330</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Mr_Slower/article/details/84034731" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Mr_Slower/article/details/84034731","ab":"new"}'>
+				python关于queue模块
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">1618</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box ">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8235497.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8235497.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">零散</span>
+                    </span>
+                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8235566.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8235566.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">转载</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8236847.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8236847.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756930.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">python知识块</span>
+                    </span>
+                    <span class="count float-right">35篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8391159.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8391159.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">web</span>
+                    </span>
+                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Mr_Slower/article/details/84071408#comments_13650808" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/84071408#comments_13650808","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/84071408#comments_13650808","ab":"new"}'>python关于multiprocessing(多进程)模块</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/weixin_43515279" class="user-name" target="_blank">weixin_43515279: </a>
+                    <span class="code-comments">p.join()  # 只能在close()或terminate后使用,没有join不会阻塞, 主进程不会等待,直接退出
+
+(12)join()
+
+Wait for the worker processes to exit. One must call close() or terminate() before using join().
+
+等待工作进程退出, 必须在close()或terminate()前调用;
+
+以上两点说法不一致，join()应该在close()前还是后。</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Mr_Slower/article/details/83589286#comments_10174660" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/83589286#comments_10174660","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/83589286#comments_10174660","ab":"new"}'>python关于类的call方法</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/weixin_44849196" class="user-name" target="_blank">weixin_44849196: </a>
+                    <span class="code-comments">通俗易懂</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Mr_Slower/article/details/83589286#comments_9075573" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/83589286#comments_9075573","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/83589286#comments_9075573","ab":"new"}'>python关于类的call方法</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/u013034226" class="user-name" target="_blank">高岩_deal: </a>
+                    <span class="code-comments">简单明了</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Mr_Slower/article/details/84147144#comments_8729153" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/84147144#comments_8729153","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/84147144#comments_8729153","ab":"new"}'>python关于IO模型</a>
+                <p class="comment ellipsis">
+                    <a href="https://dream.blog.csdn.net" class="user-name" target="_blank">梦想橡皮擦: </a>
+                    <span class="code-comments">希望楼主可以持续更新</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Mr_Slower/article/details/84187878#comments_8729118" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/84187878#comments_8729118","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Mr_Slower/article/details/84187878#comments_8729118","ab":"new"}'>python关于select, selectors模块</a>
+                <p class="comment ellipsis">
+                    <a href="https://dream.blog.csdn.net" class="user-name" target="_blank">梦想橡皮擦: </a>
+                    <span class="code-comments">希望可以坚持的写下去</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box" style="display:block!important; width:300px;">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/Mr_Slower/article/details/99227053" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/Mr_Slower/article/details/99227053","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/Mr_Slower/article/details/99227053","ab":"new"}'>grep命令</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/Mr_Slower/article/details/107547379" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/Mr_Slower/article/details/107547379","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/Mr_Slower/article/details/107547379","ab":"new"}'>xargs命令</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/Mr_Slower/article/details/106266541" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/Mr_Slower/article/details/106266541","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/Mr_Slower/article/details/106266541","ab":"new"}'>sed命令</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Mr_Slower/article/month/2020/08" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2020年</span><span class="num">4篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Mr_Slower/article/month/2019/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">15篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Mr_Slower/article/month/2018/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2018年</span><span class="num">27篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客详情页-左下视窗（300*600） -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1173711872"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2488&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=8e3f2a315be64cefb4cc7a1670a5044e" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.4/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.6/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=56ced7299177412cb4cf37cde33a6135" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class='aside-box kind_person d-flex flex-column'>
+                    <h3 class="aside-title">分类专栏</h3>
+                    <div class="align-items-stretch kindof_item" id="kind_person_column">
+                        <div class="aside-content">
+                            <ul>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8235497.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8235497.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">零散</span>
+                                        </span>
+                                        <span class="count float-right">6篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8235566.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8235566.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">转载</span>
+                                        </span>
+                                        <span class="count float-right">2篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8236847.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8236847.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756930.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">python知识块</span>
+                                        </span>
+                                        <span class="count float-right">35篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/mr_slower/category_8391159.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/mr_slower/category_8391159.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">web</span>
+                                        </span>
+                                        <span class="count float-right">6篇</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 83590823;
+    var commentscount = 0;
+    var curentUrl = "https://blog.csdn.net/Mr_Slower/article/details/83590823";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["python","描述符","__set__","__get__","__delete__"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/Mr_Slower/article/shareArticleCardPage?article_id=83590823"
+	var articleType = 1;
+    var baiduKey = "python关于描述符__set__ ,__get__ , __delete__";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "atom-one-light";
+    var baiduSearchType = "title";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+    var showSearchText = "control";
+    var linkPage = true;
+    var articleSource = 1;
+    var articleReport = '{"pid": "blog", "spm":"1001.2101"}';
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeoutxxx(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.9/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-2aa186cf81.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>
