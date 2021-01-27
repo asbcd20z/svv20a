@@ -2,6 +2,8 @@
 ##-*- coding:utf-8 -*-
 #pyy -i
 #pyy -mpdb
+#python2 -m trace --trace sinx.py | grep sinx.py  
+#traceback.extract_stack()  
 
 '''
 Documentation » The Python Standard Library » Debugging and Profiling »
