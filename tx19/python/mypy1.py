@@ -2,6 +2,7 @@
 ##-*- coding:utf-8 -*-
 #pyy -i
 
+def lg():import inspect;return '--'+str(inspect.stack()[1][1:4])
 class AA: pass
 print("hi..")
 
