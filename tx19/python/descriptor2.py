@@ -102,7 +102,7 @@ class Test1:
 
 print(lg())
 
-#Test1.n = 'abc'   # 类属性的设置优先级高于描述符,不触发__set__
+#Test1.n = 'abc'   # 类属性的设置优先级高于描述符,不触发__set__  ///
 Test1.n             # 类调用属性会触发__get__
 print('=====>hahaha')
 t1 = Test1('sabi')  # 不涉及属性n时不会触发描述符
@@ -139,7 +139,8 @@ None
 示例2: 非数据描述符,注意设置实例属性时描述符中也不能有delete方法,否则会报错
 '''
 class Test:
-    name = 'Testhahahaha'
+    name = 'Testhahahaha';
+    print(lg()) # called here
 
     def __get__(self, instance, owner):
         print('====>get')
@@ -160,7 +161,9 @@ class Test1:
 #my
 print(lg())
 t1=Test1('my')  
-print(t1.n)          # my-触发get, 它是non-data描叙符  
+print('out:', t1.n)     # my-触发get, 它是non-data描叙符  
+print('out:', Test1.n)  # my-类调用属性 触发get, 它是non-data描叙符  
+#Test1.n=11             # my-不再是non-data描叙符
 #
 t1 = Test1('sabi')
 t1.n = 'niubi'        #没有set, 所以不会触发
