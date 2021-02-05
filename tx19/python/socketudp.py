@@ -48,9 +48,13 @@ def doclient():
     client.close()
 ##
 
+##
+def main(argv):
+    if argv[1][0]=='s': doserver()
+    if argv[1][0]=='c': doclient()
+
 if __name__ == '__main__':
     import sys;print(sys.argv)
     if len(sys.argv)<2: print('+(c/s)');sys.exit(-1)
-    if sys.argv[1][0]=='s': doserver()
-    if sys.argv[1][0]=='c': doclient()
+    main(sys.argv)
 
