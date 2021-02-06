@@ -32,6 +32,10 @@ def doserver():
     server.close()
 
 ##
+def client_recvfrom(client, BUFSIZE, flags):
+    try:
+        return client.recvfrom(BUFSIZE, flags)
+    except BlockingIOError as e: return (None,None)
 def doclient():
     import socket
     BUFSIZE = 1024
@@ -43,6 +47,7 @@ def doclient():
         client.sendto(msg.encode('utf-8'),ip_port)
      
         data,server_addr = client.recvfrom(BUFSIZE)
+        #data,server_addr = client_recvfrom(client, BUFSIZE, socket.MSG_DONTWAIT) # work bad,newly它返回上一次收的数据
         print('c.recvfrom ',data,server_addr)
      
     client.close()
