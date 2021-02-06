@@ -48,7 +48,7 @@ def doclient():
         client.sendto(msg.encode('utf-8'),ip_port)
      
         data,server_addr = client.recvfrom(BUFSIZE)
-        #data,server_addr = client_recvfrom(client, BUFSIZE, socket.MSG_DONTWAIT) # work bad,newly它返回上一次收的数据
+        #data,server_addr = client_recvfrom(client, BUFSIZE, socket.MSG_DONTWAIT) # work bad,newly它返回上一次收的已存缓冲数据
         print('c.recvfrom ',data,server_addr)
      
     client.close()
