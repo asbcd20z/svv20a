@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20210207
+	#@time20210208
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
 	#git reset    <cid> <file> ---only update INDEX
@@ -55,6 +55,10 @@
 	#git apply --check my.pat; git apply -3 my.pat; git apply --reject my.pat #patch
 	#git branch [--track | --no-track] [-f] <branchname> [<start-point>]
 	#git branch (--set-upstream-to=<upstream> | -u <upstream>) [<branchname>]
+	# eg: git branch --set-upstream-to=origin/main main
+	# or, git branch -u origin/main main
+	# or, git push -u orign/main main
+	# git push -n  ##--dry-run  ##--all --tags  ##-f -d
 
 [xcolor]
 	status=auto
