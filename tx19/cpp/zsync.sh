@@ -1,6 +1,6 @@
 #
 #sh -x ../zsync
-##lz,v20190531a-git
+##lz,v20210209a-git
 #function: sync checkout-source-code from one trunk on local windows-pc to another trunk on linux(but shared by samba)
 #attention: 1.trunk with same release version; 2.the file should be newer on local windows-pc if it needs updated by this script
 #precondition: 'pwd(./)' is the checkout-trunk on local windows-pc(by tortoiseSVN), and $rpath is checkout-trunk with same release version on linux(linsee,so it can be compiled on linux),and $rpath is shared mapping by samba(linux's smbd service). so we can cp files from 'pwd' to $rpath easilly
@@ -84,8 +84,8 @@ main3()
 local x=`dirname $0`; local y=$x/ylist.txt
 echo >$y
 #svn diff|grep 'Index:'|cut -d' ' -f2 >$y
-#git diff --name-only HEAD >$y
-git diff --name-only origin/master >$y
+git diff --name-only HEAD >$y
+#git diff --name-only origin/master >$y
 #
 catzz3 >>$y
 sed -i -e'/cplaneLogger/s|$|-|'  $y
@@ -99,13 +99,16 @@ echo
 #rpath=10.183.68.25:/var/fpwork/lzhao019/nr4/gnb/
 rpath=10.183.68.25:/var/fpwork/lzhao019/t/nr/gnb/
 rpath=10.183.68.25:/ephemeral/workspace/lzhao019/nr5/gnb/
-rpath=10.182.67.77:/ephemeral/workspace/lzhao019/nr7/gnb
+rpath=10.183.67.66:/ephemeral/workspace/lzhao019/nr6/gnb
+#rpath=10.182.67.77:/ephemeral/workspace/lzhao019/nr7/gnb
 #rpath=10.182.68.88:/ephemeral/workspace/lzhao019/nr7/gnb
-echo =$rpath
+
+#pwd
+echo ==$PWD ==$rpath
 #echo rsync -a --include-from= $v $rpath/$v
 ##echo rsync -nrvCtaz --stats `cat ylist.txt` $rpath/$v
-echo 
- rsync -rvCtaz --stats --files-from=$y . $rpath/
+echo
+  rsync -rvCtaz --stats --files-from=$y . $rpath/
 }
 
 
