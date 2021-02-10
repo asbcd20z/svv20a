@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20210208
+	#@time20210210
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
 	#git reset    <cid> <file> ---only update INDEX
@@ -68,6 +68,7 @@
 #	proxy = 135.251.33.16:8080 #15
 #       proxy = 10.167.32.133:8080
 #       proxy = 127.0.0.1:1087
+#       sslVerify=false
 [xuser]
         name=jqasbcd20z
         email=jqasbcd20z@q.com
