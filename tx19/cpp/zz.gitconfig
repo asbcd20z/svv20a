@@ -8,9 +8,10 @@
 	name=z
 	email=z
 [alias]
-	#@time20210210
+	#@time20210211
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
+	#git add -u  # -A -f --dry-run
 	#git reset    <cid> <file> ---only update INDEX
 	#git checkout <cid> <file> ---both update INDEX and workspace,or only update workspace from INDEX if without cid
 	#git br -vv
