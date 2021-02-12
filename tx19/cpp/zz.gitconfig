@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20210211
+	#@time20210211a
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
 	#git add -u  # -A -f --dry-run
