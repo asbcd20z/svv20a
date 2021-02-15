@@ -27,6 +27,7 @@ req = urllib.request.Request(url='https://www.baidu.com');
 #req.set_proxy("135.251.33.16:8080","https") # error,why?
 #print(os.environ['https_proxy'], os.environ)
 print(os.getenv('https_proxy'), os.environ)
+#
 #os.putenv('https_proxy', '135.251.33.16:8080')  # affect subprocesses only
 if (not os.getenv('https_proxy')): os.environ['https_proxy'] = '135.251.33.16:8080' # change environ varable here, or in shell command
 print(os.getenv('https_proxy'))
