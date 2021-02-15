@@ -11,6 +11,7 @@ print("hi..")
 '''
 Python UDP实例  https://www.cnblogs.com/xiao-apple36/p/9279108.html
 Python之UDP编程 https://www.cnblogs.com/yunche/p/9033666.html  https://www.liaoxuefeng.com/wiki/1016959663602400/1017790181885952
+Python之TCP编程 https://www.cnblogs.com/yunche/p/9028027.html  https://www.liaoxuefeng.com/wiki/1016959663602400/1017788916649408
 //fatal: unable to access 'https://gitlab.com/asbcd20z/svv20a.git/': OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gitlab.com:443//push@wkhm
 busybox nc -uv -lp 9999 127.0.0.1  #localhost. nc server use ipv6 addr by default,so assign a ipv4 more
 busybox nc -v -lp 9999  127.0.0.1 -e cat; busybox nc -v 0.0.0.0 9999  #to echo.
