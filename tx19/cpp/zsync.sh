@@ -1,6 +1,6 @@
 #
 #sh -x ../zsync
-##lz,v20210209a-git
+##lz,v20210218a-git
 #function: sync checkout-source-code from one trunk on local windows-pc to another trunk on linux(but shared by samba)
 #attention: 1.trunk with same release version; 2.the file should be newer on local windows-pc if it needs updated by this script
 #precondition: 'pwd(./)' is the checkout-trunk on local windows-pc(by tortoiseSVN), and $rpath is checkout-trunk with same release version on linux(linsee,so it can be compiled on linux),and $rpath is shared mapping by samba(linux's smbd service). so we can cp files from 'pwd' to $rpath easilly
@@ -90,7 +90,8 @@ git diff --name-only HEAD >$y
 catzz3 >>$y
 sed -i -e'/cplaneLogger/s|$|-|'  $y
 sed -i -e'/CPRT_Design_Document_20B.adoc/s|$|-|'  $y
-bash -xc "cat $y"
+#bash -xc "cat $y"
+bash -xc "nl $y"
 echo
 
 #rpath=cplanesh09.eecloud.dynamic.nsn-net.net:/var/fpwork/lzhao019/tw/trunk/; 
