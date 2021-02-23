@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20210223a
+	#@time20210223b
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
 	#git add -u  # -A -f --dry-run
@@ -17,7 +17,7 @@
 	#git br -vv
 	#git show-branch
 	#git show -name-only [cid] my-path   ## see changes log
-	#git log -S -L --grep=  #search
+	#git log -S'' -i -L --grep=  # grep/search (-i:case insensitive),  -G --basic-regexp...
 	#git blame my-rev~  myfile  -L99,+9  ## blame-history
 	tt3=log --oneline -3
 	configge=config --global -e
