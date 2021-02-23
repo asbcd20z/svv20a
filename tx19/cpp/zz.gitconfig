@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20210211a
+	#@time20210223a
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
 	#git add -u  # -A -f --dry-run
@@ -60,6 +60,14 @@
 	# or, git branch -u origin/main main
 	# or, git push -u orign/main main
 	# git push -n  ##--dry-run  ##--all --tags  ##-f -d
+	#git push origin :
+	#git push --all; git push --tags; git push --mirror  ## push-all-branches/-or-tags/-or-alls-in-refs
+	#git push origin mybr1  ## update mybr1, or create mybr1 if not exist remotely. and -n to try
+	#git branch -d mybr1; git push origin :mybr1; or,git push origin  --delete mybr1  ## same. delete branch remotely
+	#git tag -d tag-name; git push origin :refs/tags/tag-name; or,git push origin --delete tag-name  ## delete tag local/remotely
+	##
+	#git config --local user.name mxasbcd20z; git config --local user.email mxasbcd20z@q.com
+	#git config -l; git var -l
 
 [xcolor]
 	status=auto
