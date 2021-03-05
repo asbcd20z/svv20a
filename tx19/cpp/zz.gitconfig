@@ -8,7 +8,7 @@
 	name=z
 	email=z
 [alias]
-	#@time20210223b
+	#@time20210305a
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
 	#git add -u  # -A -f --dry-run
@@ -18,6 +18,8 @@
 	#git show-branch
 	#git show -name-only [cid] my-path   ## see changes log
 	#git log -S'' -i -L --grep=  # grep/search (-i:case insensitive),  -G --basic-regexp...
+	##git log --grep=logMessage -i  -S<string> -G<regex> -L<range>
+	#git-log中文  https://www.php.cn/manual/view/34971.html
 	#git blame my-rev~  myfile  -L99,+9  ## blame-history
 	tt3=log --oneline -3
 	configge=config --global -e
