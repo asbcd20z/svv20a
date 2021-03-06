@@ -8,12 +8,12 @@
 	name=z
 	email=z
 [alias]
-	#@time20210305a
+	#@time20210306a
 	#git clean -f -d  # rm  untracked files
 	#git rm --cached aa.txt
 	#git add -u  # -A -f --dry-run
-	#git reset    <cid> <file> ---only update INDEX
-	#git checkout <cid> <file> ---both update INDEX and workspace,or only update workspace from INDEX if without cid
+	##git reset    <cid> <file> ---only update INDEX  ##opposite of git add. means to unstaged?
+	##git checkout <cid> <file> ---both update INDEX and workspace,or only update workspace from INDEX if without cid
 	#git br -vv
 	#git show-branch
 	#git show -name-only [cid] my-path   ## see changes log
